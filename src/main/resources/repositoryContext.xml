@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+		default-lazy-init="true">
+		
+	<!-- ${profiles.active}是maven默认定义的key值--> 
+	<context:property-placeholder location="classpath:leon.${profiles.active}.properties" /> 
+	
+
+<!--  -->
+	<bean id="sqlSessionFactory" class="com.mawujun.repository.MySqlSessionFactoryBean" depends-on="sessionFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sessionFactory" ref="sessionFactory" /><!-- hibernate的sessionfactory -->
+
+		<property name="configLocation" value="classpath:Configuration.xml" />
+		<property name="plugins">
+			<list>
+				<bean class="com.mawujun.repository.mybatis.PageInterceptor">
+					<property name="dialect">
+						<bean class="${${jdbc.dbName}.mybatis.dialet}"></bean>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<!-- 适应多个数据数据库的配置，在mybatis的sql里指定databaseId，那当使用这个数据库的时候，就会使用这个sql -->
+		<property name="databaseIdProvider">
+			<bean class="com.mawujun.repository.mybatis.DatabaseIdProviderCustom">
+				<property name="databaseId" value="${jdbc.dbName}"></property>
+			</bean>
+		</property>
+		<!-- 加载映射文件，因为现在是使用Interface进行加载了，这个现在基本没用了，可以用来加载一些公共的Mapper文件 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:/**/*_${jdbc.dbName}_Mapper.xml</value>
+				<value>classpath:/**/*_common_Mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 自动搜索IRepository的Repository层类和相应的mapper.xml文件 ，Repository类的名称和xml的名称需一致-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
+		<property name="basePackage" value="com.mawujun" />
+		<!--<property name="markerInterface" value="com.mawujun.repository1.IRepository" />-->
+		<property name="annotationClass" value="org.springframework.stereotype.Repository" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property> 
+	</bean>
+	
+
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" lazy-init="false" >
+			<property name="dataSource" ref="dataSource" /> 
+			<!-- 
+			<property name="namingStrategy">
+				<bean class="com.mawujun.repository.hibernate.NamingStrategy"/>
+			</property>
+			-->
+			<property name="hibernateProperties">
+				<props>
+					<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+					
+					<prop key="hibernate.dialect">${${jdbc.dbName}.hibernate.dialet}</prop>
+					<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+					<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+					<prop key="use_sql_comments">${use_sql_comments}</prop>
+					<prop key="hibernate.max_fetch_depth">${hibernate.max_fetch_depth}</prop>
+					<prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+					
+					<prop key="hibernate.archive.autodetection">class</prop>
+					
+					<prop key="hibernate.validator.apply_to_ddl">true</prop>
+					<prop key="hibernate.validator.autoregister_listeners">true</prop>
+					
+					
+					<!-- 开启二级缓存 
+					http://www.doc88.com/p-242838708827.html http://www.tuliangcheng.cn/?p=35
+					http://zhou137520.iteye.com/blog/1611623-->  
+					<!--1：无论何时，当你给save()、update()或 saveOrUpdate()方法传递一个对象时，
+					或使用load()、 get()、list()、iterate() 或scroll()方法获得一个对象时, 该对象都将被加入到Session的内部缓存中。
+			      <prop key="hibernate.cache.use_second_level_cache">true</prop>  -->
+			      <!-- 启动"查询缓存"如果想缓存使用findall()、list()、Iterator()、createCriteria()、createQuery()等方法获得的数据结果集,必须配置此项 
+			      <prop key="hibernate.cache.use_query_cache">false</prop>  --> 
+			       
+			      <!-- 二级缓存区域名的前缀 -->  
+			      <!--<prop key="hibernate.cache.region_prefix">test</prop>-->  
+			      <!-- 高速缓存提供程序 
+			      <prop key="hibernate.cache.region.factory_class">  
+			         org.hibernate.cache.ehcache.EhCacheRegionFactory   
+			      </prop>  -->  
+			      <!-- Hibernate4以后都封装到org.hibernate.cache.ehcache.EhCacheRegionFactory -->  
+			      <!-- 指定缓存配置文件位置 -->  
+			      <!-- <prop key="hibernate.cache.provider_configuration_file_resource_path">  
+			         ehcache.xml   
+			      </prop> -->  
+			      <!-- 强制Hibernate以更人性化的格式将数据存入二级缓存 -->  
+			      <prop key="hibernate.cache.use_structured_entries">true</prop>  
+			  
+			      <!-- Hibernate将收集有助于性能调节的统计数据 -->  
+			      <prop key="hibernate.generate_statistics">false</prop>  
+			 
+
+				</props>
+			</property>
+			 <!-- 2.配置缓存策略  
+            <property name="entityCacheStrategies">  
+                <props>  
+                    <prop key="com.easitech.domain.Permission">nonstrict-read-write,fixedRegion</prop>  
+                </props>  
+            </property>  --> 
+			<property name="packagesToScan">
+				<list>
+			        <value>${jdbc.packagesToScan}</value>
+	    		</list>
+			</property>
+	</bean>
+	
+		
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+    <tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true" />
+    
+    
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	     <property name="url" value="${jdbc.url}" />
+	     <property name="driverClassName" value="${jdbc.driver}"/><!-- 可输可不输 -->
+	     <property name="username" value="${jdbc.username}" />
+		 <property name="password" value="${jdbc.password}" />
+		 <property name="maxActive" value="${jdbc.maxActive}" />
+		 <property name="minIdle"><value>1</value></property>
+	     <property name="initialSize"><value>1</value></property>
+	     <property name="maxWait"><value>60000</value></property>
+	
+	     <property name="filters"><value>stat</value></property>
+	
+	     <property name="timeBetweenEvictionRunsMillis"><value>60000</value></property>
+	     <property name="minEvictableIdleTimeMillis"><value>300000</value></property>
+	<!-- 
+	     <property name="validationQuery"><value>SELECT 'x'</value></property>
+	     <property name="testWhileIdle"><value>true</value></property>
+	     <property name="testOnBorrow"><value>false</value></property>
+	   -->   <property name="testOnReturn"><value>false</value></property>
+	
+	     <property name="poolPreparedStatements"><value>true</value></property>
+	     <property name="maxOpenPreparedStatements"><value>20</value></property>
+	</bean>
+</beans>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-<title>three.js css3d - 元素周期表</title>
+<title>我们在一起</title>
 <style>
 html, body {
 	height: 100%;
@@ -26,7 +26,7 @@ a {
 	color: #ffffff;
 	padding: 5px;
 	font-family: Monospace;
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: bold;
 	text-align: center;
 	z-index: 1;
@@ -50,13 +50,13 @@ a {
 
 .element:hover {
 	box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
-	border: 1px solid rgba(127,255,255,0.75);
+	border: 2px solid rgba(127,255,255,0.75);
 }
 
-	.element .number {
+	.element .ranking {
 		position: absolute;
-		top: 20px;
-		right: 20px;
+		top: 3px;
+		right: 5px;
 		font-size: 12px;
 		color: rgba(127,255,255,0.75);
 	}
@@ -106,8 +106,8 @@ button:active {
 <script src="js/CSS3DRenderer.js"></script>
 
 <div id="container"></div>
-<div id="info"><a href="http://threejs.org" target="_blank">three.js css3d</a> - 元素周期表. <a href="http://www.htmleaf.com/" target="_blank">info</a>.</div>
-<div id="menu">
+<div id="info">我们在一起<small>(雅戈尔)</small></div>
+<div id="menu" >
 <button id="table">TABLE</button>
 <button id="sphere">SPHERE</button>
 <button id="helix">HELIX</button>
@@ -115,19 +115,24 @@ button:active {
 </div>
 
 <script>
+var Ext={};
+Ext.ContextPath="";
+
 $(function(){
-	$.getJSON("./shop.json",function(jsonData){
-		window.table=jsonData;
+	$.getJSON(Ext.ContextPath+"/family/getShop.do",{},function(jsonData){	
+		window.table=jsonData.root;
+
 		init();
 		animate();
+
 	});
 });
 
-var table = [
-	{shopnm:"展销中心", details:"展销中心", num:"1.00794", col:1, row:1},
-	{shopnm:"GY宁波", details:"Helium",  num:"4.002602", col:1, row:2},
-	{shopnm:"HSM宁波", details:"Lithium",  num:"6.941", col:1, row:3}
-];
+//var table = [
+//	{shopnm:"展销中心", details:"展销中心", num:"1.00794", col:1, row:1},
+//	{shopnm:"GY宁波", details:"GY宁波",  num:"4.002602", col:1, row:2},
+//	{shopnm:"HSM宁波", details:"HSM宁波",  num:"6.941", col:1, row:3}
+//];
 
 var camera, scene, renderer;
 var controls;
@@ -136,36 +141,66 @@ var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
 
 
-init();
-animate();
+//init();
+//animate();
 
-function render1() {
 
-	renderer.render( scene, camera );
-requestAnimationFrame( render1 );
-}
+var temp=null;
 function changeSize(div){
 	var duration=2000;
 	//div.style.width="200px";
 	//div.style.zIndex="9999";
-	for(var i=0;i<objects.length;i++){
-		if(objects[i].element==div){
-			//new TWEEN.Tween( objects[i].rotation )
-			//.to( { y: Math.PI  }, Math.random() * duration + duration )
-			//.easing( TWEEN.Easing.Exponential.InOut )
-			//.start();
-			//objects[i].rotation.y+=controls.rotateSpeed;//Math.PI;
-		}
+	//for(var i=0;i<objects.length;i++){
+		//if(objects[i].element==div){
+		//console.log(objects[0].rotation.y);
+		//	var degree=10*Math.PI / 180;
+		//	var tween = new TWEEN.Tween({y:objects[0].rotation.y})
+		//			.to( { y: objects[0].rotation.y*0.25 }, 2000 )
+		//			.easing( TWEEN.Easing.Elastic.InOut )
+		//			.onUpdate( function () {
+		//				//console.log(objects[0].rotation.y);
+		//				objects[0].rotation.y+=degree;
+//
+		//			})
+		//			.start();
+					
+		//			animate();
+		//}
+	//}
+
+	if(!temp){
+		//temp=div.style.transform;
+		//div.style.transform="rotateY(60deg)";
+	} else {
+		//div.style.transform=temp;
+		//temp=null;
 	}
+	y=div;
+	rotateYDIV();
 	
-	new TWEEN.Tween( objects[0].rotation )
-			.to( { y: Math.PI  }, Math.random() * duration + duration )
-			.easing( TWEEN.Easing.Exponential.InOut )
-			.start();
-	//animate();
-	renderer.render( scene, camera );
-	requestAnimationFrame( changeSize );
 			
+}
+
+function rotateYDIV()
+{
+//y=document.getElementById("rotatey1")
+clearInterval(rotYINT)
+rotYINT=setInterval("startYRotate()",10)
+}
+var x,y,n=0,ny=0,rotINT,rotYINT
+
+function startYRotate()
+{
+ny=ny+1
+y.style.transform="rotateY(" + ny + "deg)"
+y.style.webkitTransform="rotateY(" + ny + "deg)"
+y.style.OTransform="rotateY(" + ny + "deg)"
+y.style.MozTransform="rotateY(" + ny + "deg)"
+if (ny==180 || ny>=360)
+	{
+	clearInterval(rotYINT)
+	if (ny>=360){ny=0}
+	}
 }
 function init() {
 
@@ -184,10 +219,10 @@ function init() {
 		
 		element.setAttribute("onclick", "changeSize(this)");           
 
-		//var number = document.createElement( 'div' );
-		//number.className = 'number';
-		//number.textContent = (i/5) + 1;
-		//element.appendChild( number );
+		var ranking = document.createElement( 'div' );
+		ranking.className = 'ranking';
+		ranking.textContent = table[ i ].ranking;
+		element.appendChild( ranking );
 
 		var shopnm = document.createElement( 'div' );
 		shopnm.className = 'shopnm';
@@ -196,7 +231,7 @@ function init() {
 
 		var details = document.createElement( 'div' );
 		details.className = 'details';
-		details.innerHTML = table[ i].details + '<br>' + table[ i ].num;
+		details.innerHTML = table[ i].details + '<br>' + table[ i ].num+'<br>' + table[ i ].money;
 		element.appendChild( details );
 
 		var object = new THREE.CSS3DObject( element );
@@ -210,8 +245,8 @@ function init() {
 		//
 
 		var object = new THREE.Object3D();
-		object.position.x = ( table[ i ].col * 140 ) - 1330;
-		object.position.y = - ( table[ i ].row * 180 ) + 990;
+		object.position.x = ( table[ i ].col * 140 ) - 1430;//对象的位置 140，刚好是element对象宽度加上20px，从右向左计算的
+		object.position.y = - ( table[ i ].row * 180 ) + 1090;//从底向上计算
 
 		targets.table.push( object );
 
@@ -270,9 +305,9 @@ function init() {
 
 		var object = new THREE.Object3D();
 
-		object.position.x = ( ( i % 5 ) * 400 ) - 800;
-		object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
-		object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
+		object.position.x = ( ( i % 10 ) * 200 ) - 800;
+		object.position.y = ( - ( Math.floor( i / 10 ) % 5 ) * 200 ) + 800;
+		object.position.z = ( Math.floor( i / 100 ) ) * 1000 - 2000;//100=x*y=10*10
 
 		targets.grid.push( object );
 

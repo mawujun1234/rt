@@ -1,5 +1,10 @@
 [
-	{shopnm:"展销中心", details:"展销中心", num:"1.00794", col:1, row:1},
-	{shopnm:"GY宁波", details:"Helium",  num:"4.002602", col:1, row:2},
-	{shopnm:"HSM宁波", details:"Lithium",  num:"6.941", col:1, row:3}
+	{"shopnm":"展销中心", "details":"展销中心", "num":"1.00794", "col":1, "row":1},
+	{"shopnm":"GY宁波", "details":"Helium",  "num":"4.002602", "col":1, "row":2},
+	{"shopnm":"HSM宁波", "details":"Lithium",  "num":"6.941", "col":1, "row":3},
+	{"shopnm":"展销中心", "details":"展销中心", "num":"1.00794", "col":1, "row":1},
+	{"shopnm":"GY宁波", "details":"Helium",  "num":"4.002602", "col":1, "row":2},
+	{"shopnm":"HSM宁波", "details":"Lithium",  "num":"6.941", "col":1, "row":3},
+	
+	
 ]
