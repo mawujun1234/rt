@@ -221,5 +221,9 @@ THREE.CSS3DRenderer = function () {
 		renderObject( scene, camera );
 
 	};
+	
+	this.getWidth=function(){
+		return _width;
+	};
 
 };

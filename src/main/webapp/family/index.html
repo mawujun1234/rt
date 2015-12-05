@@ -16,6 +16,20 @@ body {
 	overflow: hidden;
 }
 
+body {
+	background-image: url('./images/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    margin: 0px;
+    padding: 0px;
+    font-family: Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    background-color: black;
+    overflow: hidden;
+}
+
 a {
 	color: #ffffff;
 }
@@ -99,7 +113,7 @@ button:active {
 </style>
 </head>
 <body>
-<script src="../jquery/jquery-1.11.3.min.js"></script>
+<script src="../jquery/jquery-2.1.4.min.js"></script>
 <script src="js/three.min.js"></script>
 <script src="js/tween.min.js"></script>
 <script src="js/TrackballControls.js"></script>
@@ -175,10 +189,77 @@ function changeSize(div){
 		//div.style.transform=temp;
 		//temp=null;
 	}
-	y=div;
-	rotateYDIV();
+	//y=div;
+	//rotateYDIV();
+	//alert();
 	
-			
+	//new TWEEN.Tween( objects[0].position )
+	//		.to( { x: 0 ,y:100,z:100}, Math.random() * duration + duration )
+	//		.easing( TWEEN.Easing.Exponential.InOut )
+	//		.start();
+	camera.lookAt( objects[0].position );		
+	new TWEEN.Tween( objects[0].scale )
+			.to( { y: 2,x:2 }, Math.random() * duration + duration )
+			.easing( TWEEN.Easing.Exponential.InOut )
+			.onUpdate( function () {
+				//objects[0].scale.y+=0.5;
+				//console.log(objects[0].scale.y);
+				if(objects[0].scale.y==2){
+					console.log(objects[0].scale);
+					//camera.lookAt( scene.position );
+					//objects[0].element.style.display="none";
+				}
+			})
+			.start();
+	new TWEEN.Tween( this )
+			.to( {}, duration * 2 )
+			.onUpdate( render )
+			.start();
+	
+	//scaleDiv(div);
+}
+//放大或缩小div
+function scaleDiv(div){
+	var orgin_transform=div.style.transform;//$(div).css("transform");
+	console.log(orgin_transform);
+	var start=orgin_transform.indexOf("matrix3d(");
+	//因为前面或后面还有其他的值
+	var orgin_transform_start=orgin_transform.substring(0,start+9);
+	var end=orgin_transform.indexOf(")",start);
+	var orgin_transform_center=orgin_transform.substring(start+9,end);
+	//因为前面或后面还有其他的值
+	var orgin_transform_end=orgin_transform.substring(end);
+	var array=orgin_transform_center.split(",");
+	
+	var cos=Math.cos(180*Math.PI / 180).toFixed(6);
+	var sin=Math.sin(180*Math.PI / 180).toFixed(6);
+	array[0]=2;
+	array[5]=-2;
+	//array[10]=2;
+	var matrix3d=orgin_transform_start+array.join(",")+orgin_transform_end+" ";
+	//matrix3d="translate3d(-50%,-50%,200px)";
+	$(div).css("transform",matrix3d);
+	$(div).css("z-index",$(div).css("z-index")+1);
+}
+function rotateDiv(div){
+	var orgin_transform=div.style.transform;//$(div).css("transform");
+	var start=orgin_transform.indexOf("matrix3d(");
+	//因为前面或后面还有其他的值
+	var orgin_transform_start=orgin_transform.substring(0,start+9);
+	var end=orgin_transform.indexOf(")",start);
+	var orgin_transform_center=orgin_transform.substring(start+9,end);
+	//因为前面或后面还有其他的值
+	var orgin_transform_end=orgin_transform.substring(end);
+	var array=orgin_transform_center.split(",");
+	
+	var cos=Math.cos(180*Math.PI / 180).toFixed(6);
+	var sin=Math.sin(180*Math.PI / 180).toFixed(6);
+	array[0]=cos;
+	array[2]=sin;
+	array[8]=-sin;
+	array[10]=cos;
+	var matrix3d=orgin_transform_start+array.join(",")+orgin_transform_end;
+	$(div).css("transform",matrix3d);
 }
 
 function rotateYDIV()
@@ -192,10 +273,10 @@ var x,y,n=0,ny=0,rotINT,rotYINT
 function startYRotate()
 {
 ny=ny+1
-y.style.transform="rotateY(" + ny + "deg)"
-y.style.webkitTransform="rotateY(" + ny + "deg)"
-y.style.OTransform="rotateY(" + ny + "deg)"
-y.style.MozTransform="rotateY(" + ny + "deg)"
+y.style.transform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
+y.style.webkitTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
+y.style.OTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
+y.style.MozTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
 if (ny==180 || ny>=360)
 	{
 	clearInterval(rotYINT)
