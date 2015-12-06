@@ -1,7 +1,7 @@
 package com.mawujun.family;
 
 public class ShopInfo {
-	
+	private String code;
 	private String shopnm;
 	private String details;
 	private Integer ranking;
@@ -52,6 +52,12 @@ public class ShopInfo {
 	}
 	public void setMoney(Double money) {
 		this.money = money;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

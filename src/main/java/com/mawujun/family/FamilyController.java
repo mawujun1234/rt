@@ -13,6 +13,7 @@ public class FamilyController {
 		List<ShopInfo> list=new ArrayList<ShopInfo>(0);
 		for (int i=0;i<100;i++){
 			ShopInfo info=new ShopInfo();
+			info.setCode("code"+i);
 			info.setShopnm("展销中心");
 			info.setDetails("展销中心");
 			info.setRanking(i);

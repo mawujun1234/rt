@@ -77,10 +77,10 @@ a {
 
 	.element .shopnm {
 		position: absolute;
-		top: 10px;
+		top: 20px;
 		left: 0px;
 		right: 0px;
-		font-size: 40px;
+		font-size: 30px;
 		font-weight: bold;
 		color: rgba(255,255,255,0.75);
 		text-shadow: 0 0 10px rgba(0,255,255,0.95);
@@ -118,14 +118,15 @@ button:active {
 <script src="js/tween.min.js"></script>
 <script src="js/TrackballControls.js"></script>
 <script src="js/CSS3DRenderer.js"></script>
+<script src="js/ClickController.js"></script>
 
 <div id="container"></div>
 <div id="info">我们在一起<small>(雅戈尔)</small></div>
 <div id="menu" >
-<button id="table">TABLE</button>
-<button id="sphere">SPHERE</button>
-<button id="helix">HELIX</button>
-<button id="grid">GRID</button>
+<button id="table">表格型</button>
+<button id="sphere">球形</button>
+<button id="helix">螺旋型</button>
+<button id="grid" style="display:none">GRID</button>
 </div>
 
 <script>
@@ -151,7 +152,7 @@ $(function(){
 var camera, scene, renderer;
 var controls;
 
-var objects = [];
+//var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
 
 
@@ -159,130 +160,86 @@ var targets = { table: [], sphere: [], helix: [], grid: [] };
 //animate();
 
 
-var temp=null;
+var clickController=new ClickController();
+//clickController.objects=objects;
+
 function changeSize(div){
-	var duration=2000;
-	//div.style.width="200px";
-	//div.style.zIndex="9999";
-	//for(var i=0;i<objects.length;i++){
-		//if(objects[i].element==div){
-		//console.log(objects[0].rotation.y);
-		//	var degree=10*Math.PI / 180;
-		//	var tween = new TWEEN.Tween({y:objects[0].rotation.y})
-		//			.to( { y: objects[0].rotation.y*0.25 }, 2000 )
-		//			.easing( TWEEN.Easing.Elastic.InOut )
-		//			.onUpdate( function () {
-		//				//console.log(objects[0].rotation.y);
-		//				objects[0].rotation.y+=degree;
+	clickController.show(div.dataset.index);
+	render_click();	
+}
+
+//方法二
+function render_click(){
+
+	TWEEN.update();
+	renderer.render( scene, camera );
+	requestAnimationFrame( render_click );
+}
+////放大或缩小div
+//function scaleDiv(div){
+//	var orgin_transform=div.style.transform;//$(div).css("transform");
+//	console.log(orgin_transform);
+//	var start=orgin_transform.indexOf("matrix3d(");
+//	//因为前面或后面还有其他的值
+//	var orgin_transform_start=orgin_transform.substring(0,start+9);
+//	var end=orgin_transform.indexOf(")",start);
+//	var orgin_transform_center=orgin_transform.substring(start+9,end);
+//	//因为前面或后面还有其他的值
+//	var orgin_transform_end=orgin_transform.substring(end);
+//	var array=orgin_transform_center.split(",");
+//	
+//	var cos=Math.cos(180*Math.PI / 180).toFixed(6);
+//	var sin=Math.sin(180*Math.PI / 180).toFixed(6);
+//	array[0]=2;
+//	array[5]=-2;
+//	//array[10]=2;
+//	var matrix3d=orgin_transform_start+array.join(",")+orgin_transform_end+" ";
+//	//matrix3d="translate3d(-50%,-50%,200px)";
+//	$(div).css("transform",matrix3d);
+//	$(div).css("z-index",$(div).css("z-index")+1);
+//}
+//function rotateDiv(div){
+//	var orgin_transform=div.style.transform;//$(div).css("transform");
+//	var start=orgin_transform.indexOf("matrix3d(");
+//	//因为前面或后面还有其他的值
+//	var orgin_transform_start=orgin_transform.substring(0,start+9);
+//	var end=orgin_transform.indexOf(")",start);
+//	var orgin_transform_center=orgin_transform.substring(start+9,end);
+//	//因为前面或后面还有其他的值
+//	var orgin_transform_end=orgin_transform.substring(end);
+//	var array=orgin_transform_center.split(",");
+//	
+//	var cos=Math.cos(180*Math.PI / 180).toFixed(6);
+//	var sin=Math.sin(180*Math.PI / 180).toFixed(6);
+//	array[0]=cos;
+//	array[2]=sin;
+//	array[8]=-sin;
+//	array[10]=cos;
+//	var matrix3d=orgin_transform_start+array.join(",")+orgin_transform_end;
+//	$(div).css("transform",matrix3d);
+//}
 //
-		//			})
-		//			.start();
-					
-		//			animate();
-		//}
-	//}
-
-	if(!temp){
-		//temp=div.style.transform;
-		//div.style.transform="rotateY(60deg)";
-	} else {
-		//div.style.transform=temp;
-		//temp=null;
-	}
-	//y=div;
-	//rotateYDIV();
-	//alert();
-	
-	//new TWEEN.Tween( objects[0].position )
-	//		.to( { x: 0 ,y:100,z:100}, Math.random() * duration + duration )
-	//		.easing( TWEEN.Easing.Exponential.InOut )
-	//		.start();
-	camera.lookAt( objects[0].position );		
-	new TWEEN.Tween( objects[0].scale )
-			.to( { y: 2,x:2 }, Math.random() * duration + duration )
-			.easing( TWEEN.Easing.Exponential.InOut )
-			.onUpdate( function () {
-				//objects[0].scale.y+=0.5;
-				//console.log(objects[0].scale.y);
-				if(objects[0].scale.y==2){
-					console.log(objects[0].scale);
-					//camera.lookAt( scene.position );
-					//objects[0].element.style.display="none";
-				}
-			})
-			.start();
-	new TWEEN.Tween( this )
-			.to( {}, duration * 2 )
-			.onUpdate( render )
-			.start();
-	
-	//scaleDiv(div);
-}
-//放大或缩小div
-function scaleDiv(div){
-	var orgin_transform=div.style.transform;//$(div).css("transform");
-	console.log(orgin_transform);
-	var start=orgin_transform.indexOf("matrix3d(");
-	//因为前面或后面还有其他的值
-	var orgin_transform_start=orgin_transform.substring(0,start+9);
-	var end=orgin_transform.indexOf(")",start);
-	var orgin_transform_center=orgin_transform.substring(start+9,end);
-	//因为前面或后面还有其他的值
-	var orgin_transform_end=orgin_transform.substring(end);
-	var array=orgin_transform_center.split(",");
-	
-	var cos=Math.cos(180*Math.PI / 180).toFixed(6);
-	var sin=Math.sin(180*Math.PI / 180).toFixed(6);
-	array[0]=2;
-	array[5]=-2;
-	//array[10]=2;
-	var matrix3d=orgin_transform_start+array.join(",")+orgin_transform_end+" ";
-	//matrix3d="translate3d(-50%,-50%,200px)";
-	$(div).css("transform",matrix3d);
-	$(div).css("z-index",$(div).css("z-index")+1);
-}
-function rotateDiv(div){
-	var orgin_transform=div.style.transform;//$(div).css("transform");
-	var start=orgin_transform.indexOf("matrix3d(");
-	//因为前面或后面还有其他的值
-	var orgin_transform_start=orgin_transform.substring(0,start+9);
-	var end=orgin_transform.indexOf(")",start);
-	var orgin_transform_center=orgin_transform.substring(start+9,end);
-	//因为前面或后面还有其他的值
-	var orgin_transform_end=orgin_transform.substring(end);
-	var array=orgin_transform_center.split(",");
-	
-	var cos=Math.cos(180*Math.PI / 180).toFixed(6);
-	var sin=Math.sin(180*Math.PI / 180).toFixed(6);
-	array[0]=cos;
-	array[2]=sin;
-	array[8]=-sin;
-	array[10]=cos;
-	var matrix3d=orgin_transform_start+array.join(",")+orgin_transform_end;
-	$(div).css("transform",matrix3d);
-}
-
-function rotateYDIV()
-{
-//y=document.getElementById("rotatey1")
-clearInterval(rotYINT)
-rotYINT=setInterval("startYRotate()",10)
-}
-var x,y,n=0,ny=0,rotINT,rotYINT
-
-function startYRotate()
-{
-ny=ny+1
-y.style.transform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
-y.style.webkitTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
-y.style.OTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
-y.style.MozTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
-if (ny==180 || ny>=360)
-	{
-	clearInterval(rotYINT)
-	if (ny>=360){ny=0}
-	}
-}
+//function rotateYDIV()
+//{
+////y=document.getElementById("rotatey1")
+//clearInterval(rotYINT)
+//rotYINT=setInterval("startYRotate()",10)
+//}
+//var x,y,n=0,ny=0,rotINT,rotYINT
+//
+//function startYRotate()
+//{
+//ny=ny+1
+//y.style.transform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
+//y.style.webkitTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
+//y.style.OTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
+//y.style.MozTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
+//if (ny==180 || ny>=360)
+//	{
+//	clearInterval(rotYINT)
+//	if (ny>=360){ny=0}
+//	}
+//}
 function init() {
 
 	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -298,7 +255,8 @@ function init() {
 		element.className = 'element';
 		element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
 		
-		element.setAttribute("onclick", "changeSize(this)");           
+		element.setAttribute("onclick", "changeSize(this)");  
+		element.setAttribute("data-index", table[ i ].ranking);         
 
 		var ranking = document.createElement( 'div' );
 		ranking.className = 'ranking';
@@ -321,7 +279,7 @@ function init() {
 		object.position.z = Math.random() * 4000 - 2000;
 		scene.add( object );
 
-		objects.push( object );
+		clickController.objects.push( object );
 
 		//
 
@@ -337,7 +295,7 @@ function init() {
 
 	var vector = new THREE.Vector3();
 
-	for ( var i = 0, l = objects.length; i < l; i ++ ) {
+	for ( var i = 0, l = clickController.objects.length; i < l; i ++ ) {
 
 		var phi = Math.acos( -1 + ( 2 * i ) / l );
 		var theta = Math.sqrt( l * Math.PI ) * phi;
@@ -360,7 +318,7 @@ function init() {
 
 	var vector = new THREE.Vector3();
 
-	for ( var i = 0, l = objects.length; i < l; i ++ ) {
+	for ( var i = 0, l = clickController.objects.length; i < l; i ++ ) {
 
 		var phi = i * 0.175 + Math.PI;
 
@@ -382,7 +340,7 @@ function init() {
 
 	// grid
 
-	for ( var i = 0; i < objects.length; i ++ ) {
+	for ( var i = 0; i < clickController.objects.length; i ++ ) {
 
 		var object = new THREE.Object3D();
 
@@ -405,34 +363,31 @@ function init() {
 
 	controls = new THREE.TrackballControls( camera, renderer.domElement );
 	controls.rotateSpeed = 0.5;
+	controls.zoomSpeed=0.6;
 	controls.minDistance = 500;
 	controls.maxDistance = 6000;
 	controls.addEventListener( 'change', render );
 
 	var button = document.getElementById( 'table' );
 	button.addEventListener( 'click', function ( event ) {
-
 		transform( targets.table, 2000 );
 
 	}, false );
 
 	var button = document.getElementById( 'sphere' );
 	button.addEventListener( 'click', function ( event ) {
-
 		transform( targets.sphere, 2000 );
 
 	}, false );
 
 	var button = document.getElementById( 'helix' );
 	button.addEventListener( 'click', function ( event ) {
-
 		transform( targets.helix, 2000 );
 
 	}, false );
 
 	var button = document.getElementById( 'grid' );
 	button.addEventListener( 'click', function ( event ) {
-
 		transform( targets.grid, 2000 );
 
 	}, false );
@@ -446,12 +401,21 @@ function init() {
 }
 
 function transform( targets, duration ) {
-
+	//alert(clickController.stack.length);
+	//点击变形归位后，再开始执行
+	if(clickController.stack.length>0){
+		clickController.back();
+		render_click();
+		setTimeout(function(targets, duration){
+				return function() {transform(targets, duration)};
+			}(targets, duration),clickController.backDuration);
+		return;
+	}
 	TWEEN.removeAll();
 
-	for ( var i = 0; i < objects.length; i ++ ) {
+	for ( var i = 0; i < clickController.objects.length; i ++ ) {
 
-		var object = objects[ i ];
+		var object = clickController.objects[ i ];
 		var target = targets[ i ];
 
 		new TWEEN.Tween( object.position )
@@ -465,11 +429,16 @@ function transform( targets, duration ) {
 			.start();
 
 	}
-
+	
 	new TWEEN.Tween( this )
 		.to( {}, duration * 2 )
 		.onUpdate( render )
 		.start();
+
+//	new TWEEN.Tween( this )
+//		.to( {}, duration * 2 )
+//		.onUpdate( render )
+//		.start();
 
 }
 
