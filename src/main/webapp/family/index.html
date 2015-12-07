@@ -94,6 +94,12 @@ a {
 		font-size: 12px;
 		color: rgba(127,255,255,0.75);
 	}
+	
+	.element .reverse_side{
+		font-size: 14px;
+		color: rgba(127,255,255,0.95);
+	}
+	.element img, .element object, .element video { max-width: 100%;}
 
 button {
 	color: rgba(127,255,255,0.75);
@@ -119,7 +125,7 @@ button:active {
 <script src="js/TrackballControls.js"></script>
 <script src="js/CSS3DRenderer.js"></script>
 <script src="js/ClickController.js"></script>
-
+<script src="../echarts-2.2.7/build/dist/echarts-all.js"></script>
 <div id="container"></div>
 <div id="info">我们在一起<small>(雅戈尔)</small></div>
 <div id="menu" >
@@ -175,80 +181,16 @@ function render_click(){
 	renderer.render( scene, camera );
 	requestAnimationFrame( render_click );
 }
-////放大或缩小div
-//function scaleDiv(div){
-//	var orgin_transform=div.style.transform;//$(div).css("transform");
-//	console.log(orgin_transform);
-//	var start=orgin_transform.indexOf("matrix3d(");
-//	//因为前面或后面还有其他的值
-//	var orgin_transform_start=orgin_transform.substring(0,start+9);
-//	var end=orgin_transform.indexOf(")",start);
-//	var orgin_transform_center=orgin_transform.substring(start+9,end);
-//	//因为前面或后面还有其他的值
-//	var orgin_transform_end=orgin_transform.substring(end);
-//	var array=orgin_transform_center.split(",");
-//	
-//	var cos=Math.cos(180*Math.PI / 180).toFixed(6);
-//	var sin=Math.sin(180*Math.PI / 180).toFixed(6);
-//	array[0]=2;
-//	array[5]=-2;
-//	//array[10]=2;
-//	var matrix3d=orgin_transform_start+array.join(",")+orgin_transform_end+" ";
-//	//matrix3d="translate3d(-50%,-50%,200px)";
-//	$(div).css("transform",matrix3d);
-//	$(div).css("z-index",$(div).css("z-index")+1);
-//}
-//function rotateDiv(div){
-//	var orgin_transform=div.style.transform;//$(div).css("transform");
-//	var start=orgin_transform.indexOf("matrix3d(");
-//	//因为前面或后面还有其他的值
-//	var orgin_transform_start=orgin_transform.substring(0,start+9);
-//	var end=orgin_transform.indexOf(")",start);
-//	var orgin_transform_center=orgin_transform.substring(start+9,end);
-//	//因为前面或后面还有其他的值
-//	var orgin_transform_end=orgin_transform.substring(end);
-//	var array=orgin_transform_center.split(",");
-//	
-//	var cos=Math.cos(180*Math.PI / 180).toFixed(6);
-//	var sin=Math.sin(180*Math.PI / 180).toFixed(6);
-//	array[0]=cos;
-//	array[2]=sin;
-//	array[8]=-sin;
-//	array[10]=cos;
-//	var matrix3d=orgin_transform_start+array.join(",")+orgin_transform_end;
-//	$(div).css("transform",matrix3d);
-//}
-//
-//function rotateYDIV()
-//{
-////y=document.getElementById("rotatey1")
-//clearInterval(rotYINT)
-//rotYINT=setInterval("startYRotate()",10)
-//}
-//var x,y,n=0,ny=0,rotINT,rotYINT
-//
-//function startYRotate()
-//{
-//ny=ny+1
-//y.style.transform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
-//y.style.webkitTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
-//y.style.OTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
-//y.style.MozTransform="matrix3d("+cos+",0,"+sin+",0,0,1,0,0,-"+sin+",0,"+cos+",0,0,0,0,1)";//"rotateY(" + ny + "deg)"
-//if (ny==180 || ny>=360)
-//	{
-//	clearInterval(rotYINT)
-//	if (ny>=360){ny=0}
-//	}
-//}
+
 function init() {
 
 	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
-	camera.position.z = 3000;
+	camera.position.z = 2500;
 
 	scene = new THREE.Scene();
 
 	// table
-
+	var col_num=15;
 	for ( var i = 0; i < table.length; i ++ ) {
 
 		var element = document.createElement( 'div' );
@@ -272,6 +214,13 @@ function init() {
 		details.className = 'details';
 		details.innerHTML = table[ i].details + '<br>' + table[ i ].num+'<br>' + table[ i ].money;
 		element.appendChild( details );
+		
+		var reverse_side = document.createElement( 'div' );
+		reverse_side.setAttribute("id", "reverse_side_"+i);  
+		reverse_side.className = 'reverse_side';
+		reverse_side.style.display = 'none';
+		//reverse_side.innerHTML = ""
+		element.appendChild( reverse_side );
 
 		var object = new THREE.CSS3DObject( element );
 		object.position.x = Math.random() * 4000 - 2000;
@@ -284,8 +233,10 @@ function init() {
 		//
 
 		var object = new THREE.Object3D();
-		object.position.x = ( table[ i ].col * 140 ) - 1430;//对象的位置 140，刚好是element对象宽度加上20px，从右向左计算的
-		object.position.y = - ( table[ i ].row * 180 ) + 1090;//从底向上计算
+		//object.position.x = ( table[ i ].col * 140 ) - 1430;//对象的位置 140，刚好是element对象宽度加上20px，从右向左计算的
+		//object.position.y = - ( table[ i ].row * 180 ) + 1090;//从底向上计算
+		object.position.x = ( (i%col_num+1) * 140 ) - col_num*73;//对象的位置 140，刚好是element对象宽度加上20px，从右向左计算的
+		object.position.y = - ( parseInt((i/col_num+1)) * 180 ) + 930;//从底向上计算
 
 		targets.table.push( object );
 
