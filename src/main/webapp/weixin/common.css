@@ -1475,11 +1475,7 @@ body {
 	transform: translate3d(-3.2rem,-5.56rem,0)
 }
 
-/**Ì×È¦£¬Ò»È¦Ì×Ò»È¦***/
-.page2 .dot1 .line,.page2 .dot2 .line {
-	-webkit-transform: translate3d(-50%,-50%,0);
-	position: absolute
-}
+
 
 .page2 .ol.ol2 i {
 	width: 4.25rem;
@@ -1543,6 +1539,15 @@ body {
 	background-clip: padding-box
 }
 
+/**Ì×È¦£¬Ò»È¦Ì×Ò»È¦***/
+.page2 .dot1 .line,.page2 .dot2 .line,.page2 .dot3 .line {
+	-webkit-transform: translate3d(-50%,-50%,0);
+	transform: translate3d(-50%,-50%,0);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
 .page2 .dot1 {
 	position: absolute;
 	top: 50%;
@@ -1565,12 +1570,6 @@ body {
 	font-size: 1px;
 	position: relative;
 	z-index: 9	
-}
-.page2 .dot1 .line {
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate3d(-50%,-50%,0);
-	transform: translate3d(-50%,-50%,0)
 }
 
 .page2 .dot1 .line i {
@@ -1641,12 +1640,7 @@ body {
 	position: relative;
 	z-index: 9	
 }
-.page2 .dot2 .line {
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate3d(-50%,-50%,0);
-	transform: translate3d(-50%,-50%,0);
-}
+
 
 .page2 .dot2 .line i {
 	width: 100%;
@@ -1736,14 +1730,6 @@ body {
 	font-size: 1px;
 	position: relative;
 	z-index: 9	
-}
-
-.page2 .dot3 .line {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate3d(-50%,-50%,0);
-	transform: translate3d(-50%,-50%,0)
 }
 
 .page2 .dot3 .line i {
