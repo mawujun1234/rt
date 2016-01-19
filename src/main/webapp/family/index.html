@@ -8,32 +8,29 @@
 html, body {
 	height: 100%;
 }
-
 body {
 	background-color: #68217A;
 	margin: 0;
-	font-family: Helvetica, sans-serif;;
+	font-family: Helvetica, sans-serif;
+	;
 	overflow: hidden;
 }
-
 body {
 	background-image: url('./images/bg.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    margin: 0px;
-    padding: 0px;
-    font-family: Helvetica, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: transparent;
-    background-color: black;
-    overflow: hidden;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	margin: 0px;
+	padding: 0px;
+	font-family: Helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-webkit-tap-highlight-color: transparent;
+	background-color: black;
+	overflow: hidden;
 }
-
 a {
 	color: #ffffff;
 }
-
 #info {
 	position: absolute;
 	width: 100%;
@@ -45,14 +42,12 @@ a {
 	text-align: center;
 	z-index: 1;
 }
-
 #menu {
 	position: absolute;
 	bottom: 20px;
 	width: 100%;
 	text-align: center;
 }
-
 .element {
 	width: 120px;
 	height: 160px;
@@ -61,46 +56,42 @@ a {
 	text-align: center;
 	cursor: default;
 }
-
 .element:hover {
 	box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
 	border: 2px solid rgba(127,255,255,0.75);
 }
-
-	.element .ranking {
-		position: absolute;
-		top: 3px;
-		right: 5px;
-		font-size: 12px;
-		color: rgba(127,255,255,0.75);
-	}
-
-	.element .shopnm {
-		position: absolute;
-		top: 20px;
-		left: 0px;
-		right: 0px;
-		font-size: 30px;
-		font-weight: bold;
-		color: rgba(255,255,255,0.75);
-		text-shadow: 0 0 10px rgba(0,255,255,0.95);
-	}
-
-	.element .details {
-		position: absolute;
-		bottom: 15px;
-		left: 0px;
-		right: 0px;
-		font-size: 12px;
-		color: rgba(127,255,255,0.75);
-	}
-	
-	.element .reverse_side{
-		font-size: 14px;
-		color: rgba(127,255,255,0.95);
-	}
-	.element img, .element object, .element video { max-width: 100%;}
-
+.element .ranking {
+	position: absolute;
+	top: 3px;
+	right: 5px;
+	font-size: 12px;
+	color: rgba(127,255,255,0.75);
+}
+.element .shopnm {
+	position: absolute;
+	top: 20px;
+	left: 0px;
+	right: 0px;
+	font-size: 30px;
+	font-weight: bold;
+	color: rgba(255,255,255,0.75);
+	text-shadow: 0 0 10px rgba(0,255,255,0.95);
+}
+.element .details {
+	position: absolute;
+	bottom: 15px;
+	left: 0px;
+	right: 0px;
+	font-size: 12px;
+	color: rgba(127,255,255,0.75);
+}
+.element .reverse_side {
+	font-size: 14px;
+	color: rgba(127,255,255,0.95);
+}
+.element img, .element object, .element video {
+	max-width: 100%;
+}
 button {
 	color: rgba(127,255,255,0.75);
 	background: transparent;
@@ -119,34 +110,43 @@ button:active {
 </style>
 </head>
 <body>
-<script src="../jquery/jquery-2.1.4.min.js"></script>
-<script src="js/three.min.js"></script>
-<script src="js/tween.min.js"></script>
-<script src="js/TrackballControls.js"></script>
-<script src="js/CSS3DRenderer.js"></script>
-<script src="js/ClickController.js"></script>
+<script src="../jquery/jquery-2.1.4.min.js"></script> 
+<script src="js/three.min.js"></script> 
+<script src="js/tween.min.js"></script> 
+<script src="js/TrackballControls.js"></script> 
+<script src="js/CSS3DRenderer.js"></script> 
+<script src="js/ClickController.js"></script> 
+<script src="js/Helpman.js"></script> 
+<script src="js/NavController.js"></script> 
 <script src="../echarts-2.2.7/build/dist/echarts-all.js"></script>
 <div id="container"></div>
 <div id="info">我们在一起<small>(雅戈尔)</small></div>
 <div id="menu" >
-<button id="table">表格型</button>
-<button id="sphere">球形</button>
-<button id="helix">螺旋型</button>
-<button id="grid" style="display:none">GRID</button>
+  <button id="table">表格型</button>
+  <button id="sphere">球形</button>
+  <button id="helix">螺旋型</button>
+  <button id="grid" style="display:none">GRID</button>
 </div>
-
 <script>
 var Ext={};
 Ext.ContextPath="";
 
+var clickController=new ClickController();
+var helpman=new Helpman();
+var navController=new NavController();
 $(function(){
 	$.getJSON(Ext.ContextPath+"/family/getShop.do",{},function(jsonData){	
 		window.table=jsonData.root;
 
 		init();
 		animate();
-
+		//helpman.showTips("你可以点击上面门店牌哦!",3000);
 	});
+	
+	
+	helpman.initDrag();
+	navController.init();
+	
 });
 
 //var table = [
@@ -166,7 +166,7 @@ var targets = { table: [], sphere: [], helix: [], grid: [] };
 //animate();
 
 
-var clickController=new ClickController();
+
 //clickController.objects=objects;
 
 function changeSize(div){
@@ -190,7 +190,8 @@ function init() {
 	scene = new THREE.Scene();
 
 	// table
-	var col_num=15;
+	//alert(window.innerWidth);
+	var col_num=parseInt(window.innerWidth/85);
 	for ( var i = 0; i < table.length; i ++ ) {
 
 		var element = document.createElement( 'div' );
@@ -235,7 +236,7 @@ function init() {
 		var object = new THREE.Object3D();
 		//object.position.x = ( table[ i ].col * 140 ) - 1430;//对象的位置 140，刚好是element对象宽度加上20px，从右向左计算的
 		//object.position.y = - ( table[ i ].row * 180 ) + 1090;//从底向上计算
-		object.position.x = ( (i%col_num+1) * 140 ) - col_num*73;//对象的位置 140，刚好是element对象宽度加上20px，从右向左计算的
+		object.position.x = ( (i%col_num+1) * 140 ) - col_num*75;//对象的位置 140，刚好是element对象宽度加上20px，从右向左计算的
 		object.position.y = - ( parseInt((i/col_num+1)) * 180 ) + 930;//从底向上计算
 
 		targets.table.push( object );
@@ -321,24 +322,28 @@ function init() {
 
 	var button = document.getElementById( 'table' );
 	button.addEventListener( 'click', function ( event ) {
+		controls.reset();
 		transform( targets.table, 2000 );
 
 	}, false );
 
 	var button = document.getElementById( 'sphere' );
 	button.addEventListener( 'click', function ( event ) {
+		//controls.reset();
 		transform( targets.sphere, 2000 );
 
 	}, false );
 
 	var button = document.getElementById( 'helix' );
 	button.addEventListener( 'click', function ( event ) {
+		//controls.reset();
 		transform( targets.helix, 2000 );
 
 	}, false );
 
 	var button = document.getElementById( 'grid' );
 	button.addEventListener( 'click', function ( event ) {
+		//controls.reset();
 		transform( targets.grid, 2000 );
 
 	}, false );
@@ -421,5 +426,166 @@ function render() {
 }
 
 </script>
+<style>
+#youngor_help {
+	position:absolute;
+	top:50px;
+	right:50px;
+	background-image: url('./images/help_man.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+	width:58px;
+	height:58px;
+	cursor:move;
+	
+}
+
+
+.tooltip {
+  display: none;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.42857;
+  opacity: 0.8;
+  position: absolute;
+  left:-150px;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  white-space: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  z-index: 1070;
+  padding:3px;
+}
+.tooltip-arrow {
+  position:absolute;
+  top:6px;
+  right:-7px;
+  width: 0; 
+  height: 0; 
+  border-top: 5px solid transparent; 
+  border-left: 10px solid #FFF; 
+  border-bottom: 5px solid transparent; 
+}
+.tooltip-inner {
+  background-color: #FFF;
+  border-radius: 4px;
+  color: rgba(0,​ 255,​ 255,​ 1) ;
+  width: 140px;
+  padding: 0px 0px;
+  text-align: center;
+}
+</style>
+<div id="youngor_help" >
+  <div class="tooltip">
+    <div class="tooltip-inner"> </div>
+    <div class="tooltip-arrow"></div>
+  </div>
+</div>
+<style type="text/css">
+#youngor_navs{
+	position:fixed;
+	left:20px;
+	bottom:20px;
+	width:60px;
+	height:60px;
+	line-height:60px;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	text-align:center;
+	border-color:red;
+	color:#FFFF00;
+	cursor:pointer;
+}
+
+#youngor_navs>li,#youngor_navs:after{
+	position:absolute;
+	left:0;top:0;
+	width:100%;
+	height:100%;
+	border-radius:50%;
+	-webkit-border-radius:50%;
+	background-color:rgba(0,255,255,0.8);
+	border: 1px solid rgba(127,255,255,0.25);
+	box-shadow: 0px 0px 8px rgba(0,255,255,0.75);
+}
+
+#youngor_navs>li{
+	transition:all .6s;
+	-webkit-transition:all .6s;
+	-moz-transition:.6s;
+}
+
+#youngor_navs:after{
+	content:attr(data-close);
+	z-index:1;
+	border-radius:50%;
+	-webkit-border-radius:50%;
+}
+
+#youngor_navs.active:after{
+	content:attr(data-open);
+}
+#youngor_navs a{
+	width:40px;height:40px;
+	display:inline-block;
+	border-radius:50%;
+	-webkit-border-radius:50%;
+	text-decoration:none;
+	color:#fff;
+	font-size:0.8em;
+} 
+
+#youngor_navs b{
+	width:60px;
+	height:60px;
+	display:block;
+	border-radius:40px;
+	position:absolute;
+	background-color:rgba(0,255,255,0.75);
+	-webkit-transform:scale(2);
+	opacity:.2;
+	animation:halo 2s infinite;
+	-webkit-animation:halo 2s infinite;
+	-moz-animation:halo 2s infinite;
+}
+
+@-webkit-keyframes halo {
+	0% {
+		opacity:1;
+		-webkit-transform:scale(1);
+	}
+	100% {
+		opacity:0;
+		-webkit-transform:scale(1.5);
+	}
+}
+@-moz-keyframes halo {
+	0% {
+		opacity:1;
+		-moz-transform:scale(1);
+	}
+	100% {
+		opacity:0;
+		-moz-transform:scale(1.5);
+	}
+}
+</style>
+<ul id="youngor_navs" data-open="收起" data-close="展开">
+  <li><a href="#">menu</a></li>
+  <li><a href="#">menu</a></li>
+  <li><a href="#">menu</a></li>
+  <li><a href="#">menu</a></li>
+  <li><a href="#">menu</a></li>
+  <b></b>
+</ul>
 </body>
 </html>

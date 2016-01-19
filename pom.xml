@@ -7,17 +7,18 @@
   
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>4.2.2.RELEASE</org.springframework.version>
+		<org.springframework.version>4.2.4.RELEASE</org.springframework.version>
 		<org.hibernate.version>4.3.11.Final</org.hibernate.version>
 		<org.mybatis.version>3.3.0</org.mybatis.version>
 		<org.mybatis-spring.version>1.2.3</org.mybatis-spring.version>
 		<net.sf.ehcache.version>2.10.0</net.sf.ehcache.version>
 		<org.apache.logging.log4j.version>2.3</org.apache.logging.log4j.version>
-		<com.alibaba.fastjson.version>1.2.6</com.alibaba.fastjson.version>
+		<com.fasterxml.jackson.core.version>2.6.4</com.fasterxml.jackson.core.version>
 		<com.jayway.jsonpath.version>2.0.0</com.jayway.jsonpath.version>
 		<com.thoughtworks.xstream.version>1.4.8</com.thoughtworks.xstream.version>
 		<mysql.version>5.1.36</mysql.version>
 		<druid.version>1.0.15</druid.version>
+		<tomcat.version>8.0.30</tomcat.version>
  </properties>
   <profiles>
 		<profile>
@@ -58,7 +59,7 @@
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-		 <dependency>
+		<!--  <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5</version>
@@ -74,7 +75,7 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.8.1</version>
 		</dependency>
-		
+		 -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
@@ -141,6 +142,16 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
 		<!--<dependency>
@@ -269,13 +280,35 @@
 		
 		
 		
-		<!-- mvc层面要用到的jar=============================================================== -->
+		<!-- 展示层要用到的jar=============================================================== -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>${com.fasterxml.jackson.core.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${com.fasterxml.jackson.core.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+		    <artifactId>jackson-jaxrs-json-provider</artifactId>
+		    <version>${com.fasterxml.jackson.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-parameter-names</artifactId>
+			<version>${com.fasterxml.jackson.core.version}</version>
+		</dependency>
+		
+
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>${com.alibaba.fastjson.version}</version>
+			<version>1.2.7</version>
 		</dependency>
-		<!--
+	<!--	
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
@@ -321,6 +354,8 @@
 		 	<artifactId>commons-io</artifactId>
 		 	<version>2.4</version>
 		 </dependency>
+		 
+		 <!--  
 		 <dependency>
 		 	<groupId>com.mawujun</groupId>
 		 	<artifactId>leon-utils-new</artifactId>
@@ -343,7 +378,7 @@
 		 	<version>0.0.1-SNAPSHOT</version>
 		 	<type>jar</type>
 		 </dependency>
-
+-->
 		 
 		 
 		 <dependency>
@@ -351,7 +386,40 @@
 			<artifactId>commons-dbutils</artifactId>
 			<version>1.6</version>
 		</dependency>
-		 
+		
+	<!--  	
+<dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-client</artifactId>
+                <version>9.3.4.RC0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-server</artifactId>
+                <version>9.3.4.RC0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-client</artifactId>
+                <version>9.3.4.RC0</version>
+ 
+            </dependency>
+            <dependency> 
+        <groupId>com.fasterxml.jackson.core</groupId> 
+        <artifactId>jackson-annotations</artifactId> 
+        <version>2.3.0</version> 
+    </dependency> 
+<dependency>  
+    <groupId>com.fasterxml.jackson.core</groupId>  
+    <artifactId>jackson-core</artifactId>  
+    <version>2.3.1</version>  
+</dependency>  
+<dependency>  
+    <groupId>com.fasterxml.jackson.core</groupId>  
+    <artifactId>jackson-databind</artifactId>  
+    <version>2.3.3</version>  
+</dependency> 
+		 -->
 	</dependencies>
 	
     <build>
@@ -397,12 +465,13 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
+					 <failOnMissingWebXml>false</failOnMissingWebXml>
 					<!-- <warSourceExcludes>www/**/*.*,**/*.js,**/*.css</warSourceExcludes>		 -->		
 				</configuration>
 			</plugin>
 			
 		
-			
+			<!--  -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -413,6 +482,24 @@
 					<contextReloadable>false</contextReloadable>
 				</configuration>
 			</plugin>
+			
+			
+			<plugin>
+				 <groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.6.v20151106</version>
+	    		<configuration>
+					
+					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<!-- /${project.artifactId} -->
+					<webApp>
+				     <contextPath>/</contextPath>
+				    </webApp>
+				     <httpConnector>
+		                <port>8085</port>
+		        	</httpConnector>  
+				</configuration>
+	    	</plugin>
 			
 			
 			

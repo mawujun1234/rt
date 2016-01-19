@@ -6,23 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>地图</title>
+    <script src="../echarts-2.2.7/build/dist/echarts.js"></script>
 	<script src="http://api.map.baidu.com/api?v=2.0&ak=ED0fe5c7c869da5ee4260b4006e811b8"></script>
+    <script src="../jquery/jquery-1.11.3.min.js"></script>
+     
     <!-- Bootstrap -->
     <link href="../bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     
-     <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    
     <style type="text/css">
 		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-		#map_canvas{width:100%;height:100%;}
+		#main{width:100%;height:100%;}
 		
 		/**隐藏百度地图的标签**/
 	    .anchorBL{
@@ -33,9 +30,96 @@
 	</style>
   </head>
   <body>
-    <div id="map_canvas"></div>  
+    <div id="main"></div>  
 	<script type="text/javascript" src="map.js"></script>  
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    
+    <style type="text/css">
+		.comp_info {
+			position:absolute;
+			top:10px;
+			right:10px;
+			width:230px;
+			padding-left:10px;
+			background:rgba(153,204,255,0.2);
+			border:solid 1px #99CCFF;
+		    border-radius:5px;
+			box-shadow: 1px 1px 2px #99CCFF;
+			cursor:pointer;
+		}
+		.comp_info:hover {
+			transform:scale(1.05,1.05);
+			-ms-transform:scale(1.05,1.05); 	/* IE 9 */
+			-moz-transform:scale(1.05,1.05); 	/* Firefox */
+			-webkit-transform:scale(1.05,1.05); /* Safari 和 Chrome */
+			-o-transform:scale(1.05,1.05); 
+		}
+		.comp_info .comp_name {
+			color:#FFFFFF;
+			font-size:14px;
+			font-weight:bold;
+		}
+		.comp_info .comp_sale {
+			color:#F2F807;
+			font-size:18px; 
+			font-weight:bold;
+		}
+	</style>
+    <div>
+    <div class="comp_info">
+    	<span class="comp_name">中原公司:</span>
+        <div class="comp_sale">
+        	54,256,369,254.22
+        </div>
+        <span class="comp_name">会员数:</span>
+        <div class="comp_sale">
+        	5,658,587
+        </div>
+    </div>
+    
+    <div class="comp_info" style="top:120px;">
+    	<span class="comp_name">南方公司:</span>
+        <div class="comp_sale">
+        	14,256,369,254.22
+        </div>
+        <span class="comp_name">会员数:</span>
+        <div class="comp_sale">
+        	5,658,587
+        </div>
+    </div>
+    
+    <div class="comp_info" style="top:230px;">
+    	<span class="comp_name">杭州公司:</span>
+        <div class="comp_sale">
+        	34,256,369,254.22
+        </div>
+        <span class="comp_name">会员数:</span>
+        <div class="comp_sale">
+        	5,658,587
+        </div>
+    </div>
+    </div>
+    
+    <style type="text/css">
+		.all_sale_info {
+			position:absolute;
+			top:30px;
+			left:40px;
+			width:330px;
+			height:50px;
+			background:rgba(255,255,255,0.0);
+		}
+	</style>
+    <div class="all_sale_info">
+    	<span style="color:#FFFFFF;font-size:14px; font-weight:bold;">年累计销售:</span>
+        <div style="color:#F2F807;font-size:18px; font-weight:bold;">
+        254,256,369,254.22
+        <div>
+        <span style="color:#FFFFFF;font-size:14px; font-weight:bold;">会员数:</span>
+        <div style="color:#F2F807;font-size:18px; font-weight:bold;">
+        25,658,587
+        <div>
+    </div>
    
   </body>
 </html>

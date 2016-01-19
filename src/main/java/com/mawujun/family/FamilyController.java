@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class FamilyController {
 	@RequestMapping("/family/getShop.do")
-	public List<ShopInfo> getShop(){
+	public List<ShopInfo> getShop() {
 		List<ShopInfo> list=new ArrayList<ShopInfo>(0);
 		for (int i=0;i<100;i++){
 			ShopInfo info=new ShopInfo();

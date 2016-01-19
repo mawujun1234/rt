@@ -19,7 +19,10 @@ function ClickController(){
 		if(this.last_index==index){
 			//this.rotateY180(index);
 			
-			if(this.element_click_count==2){
+			if(this.element_click_count==1) {
+				this.showReverseSide(this.last_index);
+				this.element_click_count++;
+			} else if(this.element_click_count==2){
 				this.showImage(this.last_index);
 				this.element_click_count++;
 			} else if(this.element_click_count==3){
@@ -29,8 +32,9 @@ function ClickController(){
 				this.showReport(this.last_index);
 				this.element_click_count++;
 			} else {
-				this.showReverseSide(this.last_index);
-				this.element_click_count=2;
+				//this.showReverseSide(this.last_index);
+				//this.element_click_count=2;
+				this.back();
 			}
 			
 			return;
@@ -59,14 +63,15 @@ function ClickController(){
 		cilck_div_orgin.scale.y=obj.scale.y;
 		cilck_div_orgin.scale.z=obj.scale.z;
 		cilck_div_orgin.backgroundColor=element.css("background-color");
+		cilck_div_orgin.zIndex=element.css("z-index");
 		
 		cilck_div_orgin.index=index;
 		cilck_div_orgin.object=obj;
 		this.stack.push(cilck_div_orgin);
-		//console.log(this.stack.length);
+		//console.log(controls.object.position.y);
 		
 		var move_obj=new TWEEN.Tween(obj.position )
-				.to( {x:controls.object.position.x,y:controls.object.position.y,z:5}, this.outDuration )
+				.to( {x:controls.object.position.x,y:controls.object.position.y+300,z:50}, this.outDuration )
 				.easing( TWEEN.Easing.Exponential.InOut );
 			
 		var scale_obj=new TWEEN.Tween( obj.scale )
@@ -78,6 +83,19 @@ function ClickController(){
 		//move_obj.chain(scale_obj);	
 		move_obj.start();
 		scale_obj.start();
+		obj.position.z=obj.position.z+500;
+		//obj.position.x=controls.object.position.x;
+		//obj.position.y=controls.object.position.y;
+		element.css({
+			"background-color":"rgba(0, 127, 127, 0.9)",
+			"z-index":"8000"
+		});
+//		element.animate({
+//			width:"450px",
+//			height:"500px"
+//		});
+		
+		helpman.showTips("通过\"点击\"弹出来的卡牌你将会得到不同的信息!",6000);
 	}
 	//把弹出来的卡牌弹回去
 	this.back=function(){
@@ -92,19 +110,26 @@ function ClickController(){
 		//console.log(lasted.position);
 		var move_obj=new TWEEN.Tween(obj.position )
 				.to( lasted.position, this.backDuration )
-				.easing( TWEEN.Easing.Exponential.InOut );
+				.easing( TWEEN.Easing.Exponential.InOut ).start();
 			
 		var scale_obj=new TWEEN.Tween( obj.scale )
 				.to( lasted.scale,  this.backDuration )
 				.easing( TWEEN.Easing.Exponential.InOut )
 				.onComplete( function () {
-					element.css("background-color",lasted.backgroundColor)
-				});
+					//element.css("background-color",lasted.backgroundColor)
+					element.css({
+						"background-color":lasted.backgroundColor,
+						"z-index":lasted.zIndex
+					});
+				}).start();
 				
+//		element.css({
+//						"background-color":lasted.backgroundColor,
+//						"z-index":lasted.zIndex
+//		});
+					
 		this.hideReverseSide(lasted.index);
-		//move_obj.chain(scale_obj);	
-		move_obj.start();
-		scale_obj.start();
+
 	}
 	
 	//第二次点击时，把反面显示出来
@@ -119,7 +144,9 @@ function ClickController(){
 			width:"450px",
 			height:"500px"
 		});
-		element_reverse_side.html("展示该门店的信息，报表，照片等等,请大家集思广益吧。当然也可以用于其他用处。<span color='red'>多点几下会进行切换哦</span>!!!!!")
+		element_reverse_side.html("展示该门店的信息，报表，照片等等,请大家集思广益吧。当然也可以用于其他用处。<span color='red'>点一下会进行切换哦</span>!!!!!");
+		
+		
 	}
 	this.hideReverseSide=function(index){
 		
@@ -144,7 +171,7 @@ function ClickController(){
 		var obj=this.objects[index];
 		var element=$(obj.element);
 		var element_reverse_side=element.children().last();
-		element_reverse_side.html("<video autoplay='true' src='./movie.ogg' controls='controls'>你的浏览器不支持播放视频!</video>")
+		element_reverse_side.html("<video autoplay='true'  controls='controls'><source src='./movie.ogg' type='video/ogg'><source src='./movie.mp4' type='video/mp4'>你的浏览器不支持播放视频!</video>")
 	}
 	this.showReport=function(index){
 		var obj=this.objects[index];
@@ -262,5 +289,6 @@ function ClickController(){
 
 
 	}
+	
 	
 }

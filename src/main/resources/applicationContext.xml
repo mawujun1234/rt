@@ -36,7 +36,7 @@
 	
 	<!-- 启用@AspectJ支持 ,使用动态代理,不能少-->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
-	
+
 	<!--
 	<import resource="classpath:repositoryContext.xml"></import>
 	 -->
