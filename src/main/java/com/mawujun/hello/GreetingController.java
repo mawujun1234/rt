@@ -22,7 +22,7 @@ public class GreetingController {
     public Greeting greeting(HelloMessage message) throws Exception {
     	//System.out.println(message.getName());
     	 if(true){
-         	throw new RuntimeException("测试异常!");
+         	//throw new RuntimeException("测试异常!");
          }
         Thread.sleep(3000); // simulated delay
        

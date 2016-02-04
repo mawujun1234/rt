@@ -136,7 +136,7 @@ var helpman=new Helpman();
 var navController=new NavController();
 $(function(){
 	$.getJSON(Ext.ContextPath+"/family/getShop.do",{},function(jsonData){	
-		window.table=jsonData.root;
+		window.table=jsonData.shopInfoList;
 
 		init();
 		animate();

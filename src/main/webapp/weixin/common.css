@@ -1034,7 +1034,9 @@ body {
 	line-height: .16rem;
 	margin-top: 0;
 	-webkit-transform: translate3d(.01rem,0,0);
-	transform: translate3d(.01rem,0,0)
+	transform: translate3d(.01rem,0,0);
+	
+	opacity: 0;
 }
 
 .page1 h2.page_title:before {
@@ -1389,14 +1391,38 @@ body {
 	animation: rotating 30s linear 3.2s infinite both
 }
 
-.page2.point {
-	-webkit-transform: translate3d(-1.06rem,.64rem,0);
-	transform: translate3d(-1.06rem,.64rem,0)
+
+.page2 h2.page_title {
+	color:#FFFFFF;
+	font-size: .16rem;
+	line-height: .16rem;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left:-0.65rem;
+	margin-top:-0.1rem;
+
+	text-align: center;
+	opacity: 0
+	
 }
 
 
-/**定义了线条**/
-.page2 .ray i {
+.page2.point {
+	-webkit-transform: translate3d(-1.06rem,.64rem,0);
+	transform: translate3d(-1.06rem,.64rem,0);
+	/***transition :all 1.2s ease-in-out 2.2s;
+	-webkit-transition :all 1.2s ease-in-out 2.2s;***/
+}
+.page2.animation.point {
+	-webkit-transition-delay: 2.2s;
+	transition-delay: 2.2s
+}
+
+
+/**定义了线条  .page2 .ray i **/
+.ray i {
 	height:1px;
 	width:0px;
 	display:block;
@@ -1405,8 +1431,8 @@ body {
 /**第一条线条，上到下**/
 .page2 .ray.ray1 {
 	width: 2.47rem;
-	-webkit-transform: translate3d(1.23rem,2.11rem,0) rotateZ(35.1deg);
-	transform: translate3d(1.23rem,2.11rem,0) rotateZ(35.1deg)
+	-webkit-transform: translate3d(1.24rem,2.12rem,0) rotateZ(35.1deg);
+	transform: translate3d(1.24rem,2.12rem,0) rotateZ(35.1deg)
 	/**
 	width: 2.47rem;
 	-webkit-transform: translate3d(-.37rem,-1.45rem,0) rotateZ(35.1deg);
@@ -1416,8 +1442,8 @@ body {
 /**第二条线条，上到下**/
 .page2 .ray.ray2 {	
 	width: 2.7rem;
-	-webkit-transform: translate3d(.82rem,3.23rem,0) rotateZ(-16.5deg);
-	transform: translate3d(.82rem,3.23rem,0) rotateZ(-16.5deg);
+	-webkit-transform: translate3d(.82rem,3.24rem,0) rotateZ(-16.5deg);
+	transform: translate3d(.82rem,3.24rem,0) rotateZ(-16.5deg);
 	
 	/**
 	width: 2.7rem;
@@ -1428,8 +1454,8 @@ body {
 /**第三条线条，上到下**/
 .page2 .ray.ray3 {
 	width: 1.3rem;
-	-webkit-transform: translate3d(.44rem,4.24rem,0) rotateZ(71.4deg);
-	transform: translate3d(.44rem,4.24rem,0) rotateZ(71.4deg)
+	-webkit-transform: translate3d(.45rem,4.24rem,0) rotateZ(71.4deg);
+	transform: translate3d(.45rem,4.24rem,0) rotateZ(71.4deg)
 	/**
 	width: 1.3rem;
 	-webkit-transform: translate3d(-.96rem,.75rem,0) rotateZ(71.4deg);
@@ -1490,7 +1516,15 @@ body {
 	right: 50%;
 	text-align: right;
 	margin-top: -2.74rem;
-	margin-right: .3rem
+	margin-right: .3rem;
+	
+	opacity: 0;
+	font-size: .09rem;
+	color:#FFFFFF;
+}
+.page2 .section1 h3 {
+	font-size: .18rem;
+	font-weight:800;
 }
 
 .page2 .section2 {
@@ -1499,8 +1533,18 @@ body {
 	right: 50%;
 	text-align: right;
 	margin-top: -.8rem;
-	margin-right: -1.56rem
+	margin-right: -1.56rem;
+	
+	opacity: 0;
+	font-size: .09rem;
+	color:#FFFFFF;
 }
+
+.page2 .section2 h3 {
+	font-size: .18rem;
+	font-weight:800;
+}
+
 
 .page2 .section2.section_empty {
 	margin-top: -.93rem
@@ -1511,8 +1555,17 @@ body {
 	top: 50%;
 	left: 50%;
 	text-align: left;
-	margin-top: 2.08rem;
+	margin-top: 2.08rem;;
+	
+	opacity: 0;
+	font-size: .09rem;
+	color:#FFFFFF;
 	margin-left: -.36rem
+}
+
+.page2 .section3 h3 {
+	font-size: .18rem;
+	font-weight:800;
 }
 
 .page2 .section3 .data {
@@ -1529,7 +1582,7 @@ body {
 	border: 1px solid #00FF01;
 	background-color: #00FF01;
 	box-sizing: border-box;
-	background-clip: padding-box
+	background-clip: padding-box;
 }
 
 .page2 .section3 .avatar img {
@@ -1626,7 +1679,7 @@ body {
 	margin-top: -.07rem;
 	margin-left: 1.6rem;
 	color: rgba(0,0,0,0);
-	/**自己加的**/
+	
 	opacity: 0;
 }
 
@@ -1960,6 +2013,21 @@ body {
 	transform: translate3d(-.68rem,-.25rem,0)
 }
 
+.page3 h2.page_title {
+	color:#FFFFFF;
+	font-size: .16rem;
+	line-height: .16rem;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left:-0.65rem;
+	margin-top:-0.1rem;
+
+	text-align: center;
+	opacity: 0;
+}
+
 .page3 .triangle,.page3 .triangle i {
 	width: 3.48rem;
 	height: 3.47rem;
@@ -1978,12 +2046,12 @@ body {
 .page3 .triangle i {
 	top: 0;
 	left: 0;
-	background: url(../images/triangle@2x.77c42b046b.png) center center no-repeat;
+	background: url(./images/triangle@2x.77c42b046b.png) center center no-repeat;
 	background-size: 3.48rem 3.47rem
 }
 
 .page3 .triangle.triangle2 i,.page3 .triangle.triangle3 i {
-	background-image: url(../images/triangle_solid@2x.66a32b046b.png)
+	background-image: url(./images/triangle_solid@2x.66a32b046b.png)
 }
 
 .page3 .triangle.triangle1 {
@@ -2008,20 +2076,20 @@ body {
 
 .page3 .ray.ray1 {
 	width: 1.56rem;
-	-webkit-transform: translate3d(-.58rem,-.15rem,0) rotateZ(-116.3deg);
-	transform: translate3d(-.58rem,-.15rem,0) rotateZ(-116.3deg)
+	-webkit-transform: translate3d(.14rem,2.1rem,0) rotateZ(-116.3deg);
+	transform: translate3d(.14rem,2.1rem,0) rotateZ(-116.3deg)
 }
 
 .page3 .ray.ray2 {
 	width: 1.5rem;
-	-webkit-transform: translate3d(-.58rem,-.15rem,0) rotateZ(-23.8deg);
-	transform: translate3d(-.58rem,-.15rem,0) rotateZ(-23.8deg)
+	-webkit-transform: translate3d(1.19rem,2.43rem,0) rotateZ(-23.8deg);
+	transform: translate3d(1.19rem,2.43rem,0) rotateZ(-23.8deg)
 }
 
 .page3 .ray.ray3 {
 	width: 1.58rem;
-	-webkit-transform: translate3d(-.58rem,-.15rem,0) rotateZ(103.6deg);
-	transform: translate3d(-.58rem,-.15rem,0) rotateZ(103.6deg)
+	-webkit-transform: translate3d(0.28rem,3.57rem,0) rotateZ(103.6deg);
+	transform: translate3d(0.28rem,3.57rem,0) rotateZ(103.6deg)
 }
 
 .page3 .section1 {
@@ -2030,7 +2098,18 @@ body {
 	left: 50%;
 	text-align: left;
 	-webkit-transform: translate3d(-1.26rem,-2.58rem,0);
-	transform: translate3d(-1.26rem,-2.58rem,0)
+	transform: translate3d(-1.26rem,-2.58rem,0);
+	
+	opacity: 0;
+	font-size: .11rem;
+	color:#FFFFFF;
+}
+.page3 .section1 .subtitle,.page3 .section2 .subtitle,.page3 .section3 .subtitle {
+	color:#00FF01;
+}
+.page3 .section1 span,.page3 .section2 span {
+	font-size: .16rem;
+	font-weight:bold;
 }
 
 .page3 .section1.section_empty {
@@ -2044,7 +2123,11 @@ body {
 	left: 50%;
 	text-align: left;
 	-webkit-transform: translate3d(.74rem,-.5rem,0);
-	transform: translate3d(.74rem,-.5rem,0)
+	transform: translate3d(.74rem,-.5rem,0);
+	
+	opacity: 0;
+	font-size: .11rem;
+	color:#FFFFFF;
 }
 
 .page3 .section3 {
@@ -2053,7 +2136,23 @@ body {
 	left: 50%;
 	text-align: left;
 	-webkit-transform: translate3d(-.76rem,1.64rem,0);
-	transform: translate3d(-.76rem,1.64rem,0)
+	transform: translate3d(-.76rem,1.64rem,0);
+	
+	opacity: 0;
+	font-size: .11rem;
+	color:#FFFFFF;
+}
+
+
+.page3 .dot1 .dot,.page3 .dot2 .dot,.page3 .dot3 .dot { 
+	width: .1rem;
+	height: .1rem;
+	background-color: #00FF01;
+	border-radius: .1rem;
+	color: rgba(0,0,0,0);
+	font-size: 1px;
+	position: relative;
+	z-index: 9	
 }
 
 .page3 .dot1 {
@@ -2064,7 +2163,8 @@ body {
 	height: .05rem;
 	-webkit-transform: translate3d(-1.3rem,-1.59rem,0);
 	transform: translate3d(-1.3rem,-1.59rem,0);
-	color: rgba(0,0,0,0)
+	color: rgba(0,0,0,0);
+	opacity: 0;
 }
 
 .page3 .dot1 .line {
@@ -2113,7 +2213,8 @@ body {
 	left: 50%;
 	-webkit-transform: translate3d(.75rem,-.8rem,0);
 	transform: translate3d(.75rem,-.8rem,0);
-	color: rgba(0,0,0,0)
+	color: rgba(0,0,0,0);
+	opacity: 0;
 }
 
 .page3 .dot2 .line {
@@ -2160,7 +2261,8 @@ body {
 	height: .1rem;
 	-webkit-transform: translate3d(-1.01rem,1.36rem,0);
 	transform: translate3d(-1.01rem,1.36rem,0);
-	color: rgba(0,0,0,0)
+	color: rgba(0,0,0,0);
+	opacity: 0;
 }
 
 .page3 .dot3 .line {
@@ -2209,11 +2311,7 @@ body {
 	border-width: 2px
 }
 
-.page4 .rect,.page4 .rect i {
-	position: absolute;
-	width: 3.29rem;
-	height: 3.51rem
-}
+
 
 .page3.play h2.page_title {
 	-webkit-animation: pageTitle 2.2s linear both;
@@ -2397,7 +2495,11 @@ body {
 	-webkit-transform: translate3d(.41rem,.17rem,0);
 	transform: translate3d(.41rem,.17rem,0)
 }
-
+.page4 .rect,.page4 .rect i {
+	position: absolute;
+	width: 3.29rem;
+	height: 3.51rem
+}
 .page4 .rect {
 	top: 50%;
 	left: 50%;
@@ -2410,8 +2512,13 @@ body {
 	top: 0;
 	left: 0;
 	display: block;
-	background: url(../images/rect_dashed@2x.8e8d2b046b.png) center center no-repeat;
+	background: url(./images/rect_dashed@2x.8e8d2b046b.png) center center no-repeat;
 	background-size: 3.29rem 3.51rem
+}
+
+.page4 .rect.rect3 {
+	-webkit-transform: translate3d(-1.66rem,-1.92rem,0) scale(1.6) rotateZ(10deg);
+	transform: translate3d(-1.66rem,-1.92rem,0) scale(1.6) rotateZ(10deg)
 }
 
 .page4 .circle,.page4 .section1 {
@@ -2420,10 +2527,7 @@ body {
 	top: 50%
 }
 
-.page4 .rect.rect3 {
-	-webkit-transform: translate3d(-1.66rem,-1.92rem,0) scale(1.6) rotateZ(10deg);
-	transform: translate3d(-1.66rem,-1.92rem,0) scale(1.6) rotateZ(10deg)
-}
+
 
 .page4 .circle {
 	width: .1rem;
@@ -2455,68 +2559,93 @@ body {
 
 .page4 .ray.ray1 {
 	width: 1.3rem;
-	-webkit-transform: translate3d(-.94rem,-1.39rem,0) rotateZ(118.1deg);
-	transform: translate3d(-.94rem,-1.39rem,0) rotateZ(118.1deg)
+	-webkit-transform: translate3d(-.07rem,2.1rem,0) rotateZ(118.1deg);
+	transform: translate3d(-.07rem,2.1rem,0) rotateZ(118.1deg)
 }
 
 .page4 .ray.ray2 {
 	width: 1.78rem;
-	-webkit-transform: translate3d(-.58rem,1.26rem,0) rotateZ(-123.6deg);
-	transform: translate3d(-.58rem,1.26rem,0) rotateZ(-123.6deg)
+	-webkit-transform: translate3d(-.13rem,3.40rem,0) rotateZ(-123.6deg);
+	transform: translate3d(-.13rem,3.40rem,0) rotateZ(-123.6deg)
 }
 
 .page4 .ray.ray3 {
 	width: 1.7rem;
-	-webkit-transform: translate3d(-.58rem,1.26rem,0) rotateZ(-11.5deg);
-	transform: translate3d(-.58rem,1.26rem,0) rotateZ(-11.5deg)
+	-webkit-transform: translate3d(1.2rem,3.95rem,0) rotateZ(-11.5deg);
+	transform: translate3d(1.2rem,3.95rem,0) rotateZ(-11.5deg)
 }
 
 .page4 .ray.ray4 {
 	width: 1.64rem;
-	-webkit-transform: translate3d(1.48rem,-.67rem,0) rotateZ(104.3deg);
-	transform: translate3d(1.48rem,-.67rem,0) rotateZ(104.3deg)
+	-webkit-transform: translate3d(2.28rem,2.97rem,0) rotateZ(104.3deg);
+	transform: translate3d(2.28rem,2.97rem,0) rotateZ(104.3deg)
 }
 
 .page4 .ray.ray5 {
 	width: 2.52rem;
-	-webkit-transform: translate3d(1.49rem,-.65rem,0) rotateZ(-163.1deg);
-	transform: translate3d(1.49rem,-.65rem,0) rotateZ(-163.1deg)
+	-webkit-transform: translate3d(0.85rem,1.85rem,0) rotateZ(-163.1deg);
+	transform: translate3d(0.85rem,1.85rem,0) rotateZ(-163.1deg)
 }
 
 .page4 .ray.ray6 {
 	width: 2.67rem;
-	-webkit-transform: translate3d(-.95rem,-1.39rem,0) rotateZ(82.1deg);
-	transform: translate3d(-.95rem,-1.39rem,0) rotateZ(82.1deg)
+	-webkit-transform: translate3d(-.25rem,2.80rem,0) rotateZ(82.1deg);
+	transform: translate3d(-.25rem,2.80rem,0) rotateZ(82.1deg)
 }
 
 .page4 .ray.ray7 {
 	width: 3.07rem;
-	-webkit-transform: translate3d(-.95rem,-1.39rem,0) rotateZ(48.6deg);
-	transform: translate3d(-.95rem,-1.39rem,0) rotateZ(48.6deg)
+	-webkit-transform: translate3d(.35rem,2.60rem,0) rotateZ(48.6deg);
+	transform: translate3d(.35rem,2.60rem,0) rotateZ(48.6deg)
 }
 
 .page4 .ray.ray8 {
 	width: 3.08rem;
-	-webkit-transform: translate3d(1.49rem,-.65rem,0) rotateZ(172.2deg);
-	transform: translate3d(1.49rem,-.65rem,0) rotateZ(172.2deg)
+	-webkit-transform: translate3d(.25rem,2.40rem,0) rotateZ(172.2deg);
+	transform: translate3d(.25rem,2.40rem,0) rotateZ(172.2deg)
 }
 
 .page4 .ray.ray9 {
 	width: 2.83rem;
-	-webkit-transform: translate3d(1.49rem,-.67rem,0) rotateZ(137deg);
-	transform: translate3d(1.49rem,-.67rem,0) rotateZ(137deg)
+	-webkit-transform: translate3d(.85rem,3.1rem,0) rotateZ(137deg);
+	transform: translate3d(.85rem,3.1rem,0) rotateZ(137deg)
 }
 
 .page4 .ray.ray10 {
 	width: 2.9rem;
-	-webkit-transform: translate3d(-1.57rem,-.24rem,0) rotateZ(23.6deg);
-	transform: translate3d(-1.57rem,-.24rem,0) rotateZ(23.6deg)
+	-webkit-transform: translate3d(.15rem,3.17rem,0) rotateZ(23.6deg);
+	transform: translate3d(.15rem,3.17rem,0) rotateZ(23.6deg);
+	
+
 }
 
+
+.page4 h2.page_title {
+	color:#FFFFFF;
+	font-size: .16rem;
+	line-height: .16rem;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left:-0.65rem;
+	margin-top:-0.1rem;
+
+	text-align: center;
+	opacity: 0;
+}
+.page4 .section1 h3,.page4 .section2 h3,.page4 .section3 h3 {
+	font-size: .18rem;
+	font-weight:800;
+}
 .page4 .section1 {
 	text-align: left;
 	-webkit-transform: translate3d(-1.15rem,-2.55rem,0);
-	transform: translate3d(-1.15rem,-2.55rem,0)
+	transform: translate3d(-1.15rem,-2.55rem,0);
+	
+	opacity: 0;
+	font-size: .11rem;
+	color:#FFFFFF;
 }
 
 .page4 .section2 {
@@ -2525,7 +2654,11 @@ body {
 	right: 50%;
 	text-align: right;
 	margin-top: -1.5rem;
-	margin-right: -1.5rem
+	margin-right: -1.5rem;
+	
+	opacity: 0;
+	font-size: .11rem;
+	color:#FFFFFF;
 }
 
 .page4 .section3,.page5 .end {
@@ -2542,12 +2675,28 @@ body {
 
 .page4 .section3 {
 	-webkit-transform: translate3d(-.48rem,1.6rem,0);
-	transform: translate3d(-.48rem,1.6rem,0)
+	transform: translate3d(-.48rem,1.6rem,0);
+	
+	opacity: 0;
+	font-size: .11rem;
+	color:#FFFFFF;
 }
 
 .page4 .section3.section_empty {
 	-webkit-transform: translate3d(-.65rem,1.63rem,0);
 	transform: translate3d(-.65rem,1.63rem,0)
+}
+
+
+.page4 .dot1 .dot,.page4 .dot2 .dot,.page4 .dot3 .dot { 
+	width: .1rem;
+	height: .1rem;
+	background-color: #00FF01;
+	border-radius: .1rem;
+	color: rgba(0,0,0,0);
+	font-size: 1px;
+	position: relative;
+	z-index: 9	
 }
 
 .page4 .dot1 {
@@ -2558,7 +2707,9 @@ body {
 	height: .06rem;
 	-webkit-transform: translate3d(-.97rem,-1.41rem,0);
 	transform: translate3d(-.97rem,-1.41rem,0);
-	color: rgba(0,0,0,0)
+	color: rgba(0,0,0,0);
+	
+	opacity:0;
 }
 
 .page4 .dot1 .line {
@@ -2566,7 +2717,9 @@ body {
 	top: 50%;
 	left: 50%;
 	-webkit-transform: translate3d(-50%,-50%,0);
-	transform: translate3d(-50%,-50%,0)
+	transform: translate3d(-50%,-50%,0);
+	
+	
 }
 
 .page4 .dot1 .line i {
@@ -2605,7 +2758,9 @@ body {
 	height: .1rem;
 	-webkit-transform: translate3d(1.42rem,-.7rem,0);
 	transform: translate3d(1.42rem,-.7rem,0);
-	color: rgba(0,0,0,0)
+	color: rgba(0,0,0,0);
+	
+	opacity:0;
 }
 
 .page4 .dot2 .line {
@@ -2650,7 +2805,9 @@ body {
 	left: 50%;
 	-webkit-transform: translate3d(-.64rem,1.22rem,0);
 	transform: translate3d(-.64rem,1.22rem,0);
-	color: rgba(0,0,0,0)
+	color: rgba(0,0,0,0);
+	
+	opacity:0;
 }
 
 .page4 .dot3 .line {
@@ -2781,7 +2938,7 @@ body {
 
 .page4.play .ray i {
 	-webkit-animation: mxLineIn 1.1s .2s cubic-bezier(0,1.13,.73,.96) forwards,fadeOut .3s 1.8s ease forwards;
-	animation: mxLineIn 1.1s .2s cubic-bezier(0,1.13,.73,.96) forwards,fadeOut .3s 1.8s ease forwards
+	animation: mxLineIn 1.1s .2s cubic-bezier(0,1.13,.73,.96) forwards,fadeOut .3s 1.8s ease forwards;
 }
 
 .page4.play .ray1 i {
