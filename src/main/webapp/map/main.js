@@ -146,6 +146,7 @@ define(function (require) {
          * @public
          */
         self.geoCoord2Pixel = function (geoCoord) {
+        	
             var point = new BMap.Point(geoCoord[0], geoCoord[1]);
             var pos = self._map.pointToOverlayPixel(point);
             return [pos.x, pos.y];
@@ -278,7 +279,13 @@ define(function (require) {
          * @param {Object} geoCoord
          */
         self._AddPos = function (obj) {
+        	//console.log(obj);
+        	
+        	//if(!obj){
+        	//	return;
+        	//}
             var coord = this._geoCoord[obj.name]
+           // console.log(coord);
             var pos = this.geoCoord2Pixel(coord);
             obj.x = pos[0] - self._mapOffset[0];
             obj.y = pos[1] - self._mapOffset[1];

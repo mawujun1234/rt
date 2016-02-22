@@ -12,29 +12,37 @@
         ]
     });
 	
-	window.shop_geoCoord=null;	
-	window.regn_geoCoord= null;
+	window.shopData_geoCoord=null;	
+	window.regnData_geoCoord= null;
 	window.init_obj={
-		shop_geoCoord:null,
+		shopData_geoCoord:null,
 		shopData_makepoint:null,
-		regn_geoCoord:null,
+		regnData_geoCoord:null,
 		regnData_makeline:null,
 		regnData_makepoint:null
 	};
 	window.init_index=0;
 	$.getJSON("/map/geoCoord_shop.do",function(result){
+		
+		window.init_obj.shopData_geoCoord=result.shopData_geoCoord;
+		window.init_obj.shopData_makepoint=result.shopData_makepoint;
 		window.init_index++;
-		window.init_obj.shop_geoCoord=result.root;
-		window.init_obj.shopData_makepoint=result.shopData_makepoint
+		
+		//console.log(window.init_obj.shopData_geoCoord);
+		
 		if(window.init_index==2){
 			show();
 		}
 	});
 	$.getJSON("/map/geoCoord_regn.do",function(result){
-		window.init_index++;
-		window.init_obj.regn_geoCoord=result.root;
+		
+		window.init_obj.regnData_geoCoord=result.regnData_geoCoord;
+		//console.log(window.init_obj.regnData_geoCoord);
 		window.init_obj.regnData_makeline=result.regnData_makeline;
 		window.init_obj.regnData_makepoint=result.regnData_makepoint;
+		window.init_index++;
+		
+		//
 		if(window.init_index==2){
 			show();
 		}
@@ -261,7 +269,7 @@ function show(){
                     type:'map',
                     mapType: 'none',
                     data:[],
-					geoCoord:window.init_obj.shop_geoCoord,//{'九江九方':[115.84203547109,29.640229926977]},
+					geoCoord:window.init_obj.shopData_geoCoord,//{'九江九方':[115.84203547109,29.640229926977]},
                     markPoint : {
                         //symbol:'pin',
                         symbolSize : 3,
@@ -280,13 +288,14 @@ function show(){
                         data :window.init_obj.shopData_makepoint
                     }
 
-                },
+                }
+                ,
 				{
 					name:'仓库或分公司',
                     type:'map',
                     mapType: 'none',
                     data:[],
-					geoCoord:window.init_obj.regn_geoCoord,
+					geoCoord:window.init_obj.regnData_geoCoord,
 					markLine : {
                         smooth:true,
                         effect : {
@@ -322,8 +331,8 @@ function show(){
                         },
                         data : window.init_obj.regnData_makepoint
                     }
-				},
-				{
+				}
+                ,{
                     name:'炫光series',
                     type:'map',
                     mapType: 'none',
@@ -381,73 +390,73 @@ function show(){
         BMapExt.setOption(option);
 		
 		window.shopNames=[];
-		setInterval(function(){
-			//删除标注
-			for(var i=0;i<window.shopNames.length;i++){
-				myChart.delMarkPoint(2,window.shopNames[i].name)
-			}
-			window.shopNames=[];
-			
-			
-			var randoms=[];
-			for(var i=0;i<5;i++){
-				var random=parseInt(Math.random()*3000+1);
-				randoms.push(random);
-			}
-			
-			var index=0;
-			var name=null;
-			for (x in window.init_obj.shop_geoCoord)  
-			{ 
-				for(var i=0;i<randoms.length;i++){
-					if(index==randoms[i]){
-						var shop={
-							name:x,
-							value:1
-						}
-						window.shopNames.push(shop);
-					} 
-				}
-				
-				index++;
-			}  
-			//alert(name);
-			
-			//添加一个实时销售
-			myChart.addMarkPoint(2,{
-            	data : window.shopNames
-             });
-
-		},5000);
-		
-		window.markLines=[];
-		setInterval(function(){
-			 //============================================
-			 //添加一个实时物流单据
-			 //删除标注
-			for(var i=0;i<window.markLines.length;i++){//北京 > 上海
-				myChart.delMarkLine(2,window.markLines[i][0].name+" > "+window.markLines[i][1].name)
-			}
-			window.markLines=[];
-			var random=parseInt(Math.random()*20);
-			var index=0;
-			var name=null;
-			for (x in window.init_obj.regn_geoCoord)  
-			{ 
-				if(index==random){
-					name=x;
-					break;
-				} 
-				index++;
-			}  
-			var line=[{name:'宁波'},{name:name,value:95}]
-			window.markLines.push(line);
-			myChart.addMarkLine(2,{
-            	data : window.markLines
-            });
-			
-			 
-		},10000);
+//		setInterval(function(){
+//			//删除标注
+//			for(var i=0;i<window.shopNames.length;i++){
+//				myChart.delMarkPoint(2,window.shopNames[i].name)
+//			}
+//			window.shopNames=[];
+//			
+//			
+//			var randoms=[];
+//			for(var i=0;i<5;i++){
+//				var random=parseInt(Math.random()*3000+1);
+//				randoms.push(random);
+//			}
+//			
+//			var index=0;
+//			var name=null;
+//			for (x in window.init_obj.shopData_geoCoord)  
+//			{ 
+//				for(var i=0;i<randoms.length;i++){
+//					if(index==randoms[i]){
+//						var shop={
+//							name:x,
+//							value:1
+//						}
+//						window.shopNames.push(shop);
+//					} 
+//				}
+//				
+//				index++;
+//			}  
+//			//alert(name);
+//			
+//			//添加一个实时销售
+//			myChart.addMarkPoint(2,{
+//            	data : window.shopNames
+//             });
+//
+//		},5000);
+//		
+//		window.markLines=[];
+//		setInterval(function(){
+//			 //============================================
+//			 //添加一个实时物流单据
+//			 //删除标注
+//			for(var i=0;i<window.markLines.length;i++){//北京 > 上海
+//				myChart.delMarkLine(2,window.markLines[i][0].name+" > "+window.markLines[i][1].name)
+//			}
+//			window.markLines=[];
+//			var random=parseInt(Math.random()*20);
+//			var index=0;
+//			var name=null;
+//			for (x in window.init_obj.regnData_geoCoord)  
+//			{ 
+//				if(index==random){
+//					name=x;
+//					break;
+//				} 
+//				index++;
+//			}  
+//			var line=[{name:'宁波'},{name:name,value:95}]
+//			window.markLines.push(line);
+//			myChart.addMarkLine(2,{
+//            	data : window.markLines
+//            });
+//			
+//			 
+//		},10000);
 		
     }
 	
