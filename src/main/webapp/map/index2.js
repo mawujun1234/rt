@@ -28,23 +28,23 @@
 
 		//console.log(window.init_obj.shopData_geoCoord);
 
-		if (window.init_index == 2) {
+		//if (window.init_index == 2) {
 			show();
-		}
+		//}
 	});
-	$.getJSON("/map/geoCoord_regn.do", function(result) {
-
-		window.init_obj.regnData_geoCoord = result.regnData_geoCoord;
-		//console.log(window.init_obj.regnData_geoCoord);
-		window.init_obj.regnData_makeline = result.regnData_makeline;
-		//window.init_obj.regnData_makepoint = result.regnData_makepoint;
-		window.init_index++;
-
-		//
-		if (window.init_index == 2) {
-			show();
-		}
-	});
+//	$.getJSON("/map/geoCoord_regn.do", function(result) {
+//
+//		window.init_obj.regnData_geoCoord = result.regnData_geoCoord;
+//		//console.log(window.init_obj.regnData_geoCoord);
+//		window.init_obj.regnData_makeline = result.regnData_makeline;
+//		//window.init_obj.regnData_makepoint = result.regnData_makepoint;
+//		window.init_index++;
+//
+//		//
+//		if (window.init_index == 2) {
+//			show();
+//		}
+//	});
 	function show() {
 		require([ 'echarts', 'BMap', 'echarts/chart/map' ], 
 			function(echarts,BMapExtension) {
@@ -55,7 +55,7 @@
 				width : $('body').width()
 			});
 			
-			var myChart = echarts.init(document.getElementById('main')); 
+		    window.myChart = echarts.init(document.getElementById('main')); 
 
 
 			option = {
@@ -219,7 +219,7 @@
 //		                        symbolSize : function (v){
 //		                            return 10 + v/10
 //		                        },
-		                        symbolSize:8,
+		                        symbolSize:10,
 		                        effect : {
 		                            show: true,
 		                            shadowBlur : 2
@@ -272,48 +272,50 @@
 			 });
 			 
 			 
-				window.shopNames=[];
-				setInterval(function(){
-					//删除标注
-					for(var i=0;i<window.shopNames.length;i++){
-						myChart.delMarkPoint(3,window.shopNames[i].name)
-					}
-					window.shopNames=[];
-					
-					
-					var randoms=[];
-					for(var i=0;i<5;i++){
-						var random=parseInt(Math.random()*2000+1);
-						randoms.push(random);
-					}
-					
-					var name=null;
-					for (var x=0; x< window.init_obj.shopData_makepoint.length;x++)  
-					{ 
-						for(var i=0;i<randoms.length;i++){
-							if(x==randoms[0]){
-								//console.log(window.init_obj.shopData_makepoint[x]);
-								window.shopNames.push(window.init_obj.shopData_makepoint[x]);
-//								window.shopNames.push({
-//									name:window.init_obj.shopData_makepoint[x].name,
-//									value:1
-//								});
-//								 option.series[3].markPoint.data.push(window.init_obj.shopData_makepoint[x]);
-							}
-							
-						}
-
-					}  
-
-					//alert(name);
-					
-					//添加一个实时销售
-					myChart.addMarkPoint(3,{
-		            	data : window.shopNames
-		             });
-		
-				},5000);
-				
+			 
+			 
+//				window.shopNames=[];
+//				setInterval(function(){
+//					//删除标注
+//					for(var i=0;i<window.shopNames.length;i++){
+//						myChart.delMarkPoint(3,window.shopNames[i].name)
+//					}
+//					window.shopNames=[];
+//					
+//					
+//					var randoms=[];
+//					for(var i=0;i<5;i++){
+//						var random=parseInt(Math.random()*2000+1);
+//						randoms.push(random);
+//					}
+//					
+//					var name=null;
+//					for (var x=0; x< window.init_obj.shopData_makepoint.length;x++)  
+//					{ 
+//						for(var i=0;i<randoms.length;i++){
+//							if(x==randoms[0]){
+//								//console.log(window.init_obj.shopData_makepoint[x]);
+//								window.shopNames.push(window.init_obj.shopData_makepoint[x]);
+////								window.shopNames.push({
+////									name:window.init_obj.shopData_makepoint[x].name,
+////									value:1
+////								});
+////								 option.series[3].markPoint.data.push(window.init_obj.shopData_makepoint[x]);
+//							}
+//							
+//						}
+//
+//					}  
+//
+//					//alert(name);
+//					
+//					//添加一个实时销售
+//					myChart.addMarkPoint(3,{
+//		            	data : window.shopNames
+//		             });
+//		
+//				},5000);
+//				
 //				window.markLines=[];
 //				setInterval(function(){
 //					 //============================================
@@ -343,9 +345,40 @@
 //					 
 //				},10000);
 			                    
-
+			 connect();
 		}//function (echarts, BMapExtension)
 
+		
+		
 		);//require
 	}//show
 })();
+
+function connect() {
+    var socket = new SockJS('/ws/hello');
+    stompClient = Stomp.over(socket);            
+    stompClient.connect({}, function(frame) {
+        //setConnected(true);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/greetings', function(greeting){
+        	//console.log(greeting.body);
+        	//console.log(JSON.parse(greeting.body));
+			myChart.addMarkPoint(3,{
+				data : [{geoCoord:JSON.parse(greeting.body)}]
+			});
+            //showGreeting(JSON.parse(greeting.body).content);
+        });
+        
+        //stompClient.subscribe('/topic/errors', function(greeting){
+        //	alert("��̨��������");
+       // });
+    });
+}
+
+function disconnect() {
+    if (stompClient != null) {
+        stompClient.disconnect();
+    }
+    //setConnected(false);
+    console.log("Disconnected");
+}

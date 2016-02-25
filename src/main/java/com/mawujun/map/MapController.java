@@ -10,10 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +29,8 @@ import com.alibaba.fastjson.JSONObject;
 
 @Controller
 public class MapController {
-	private JSONObject coord_shop=null;
-	private JSONObject coord_regn=null;
+	private static JSONObject coord_shop=null;
+	private static JSONObject coord_regn=null;
 	
 	public void initCoord_shop(HttpServletRequest request) throws IOException{
 		String path=request.getSession().getServletContext().getRealPath("/");
@@ -163,4 +169,39 @@ public class MapController {
 	
 
 
+	@Autowired
+	private SimpMessagingTemplate template;
+
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public Map<String,String> greeting() throws Exception {
+    	//System.out.println(message.getName());
+    	// if(true){
+         	//throw new RuntimeException("测试异常!");
+         //}
+        //Thread.sleep(3000); // simulated delay
+       
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("message", "welcome");
+        return map;
+    }
+    
+    Random  random=new Random(3000);
+    @Scheduled(fixedDelay = 60*1000)
+    public void sendmsg() {
+        //String text = "{\"content\":\"测试消息\"}";
+        //System.out.println(text);
+    	if(coord_shop==null){
+    		return;
+    	}
+    	//int random=(new Random(coord_shop.size())).nextInt();
+    	Object key=coord_shop.keySet().toArray()[random.nextInt()];
+    	
+    	System.out.println(key);
+    	Map<String,Object> map=new HashMap<String,Object>();
+        map.put("message", coord_shop.get(key));
+        this.template.convertAndSend("/topic/greetings", coord_shop.get(key));
+        //System.out.println("11111111111");
+    }
 }
