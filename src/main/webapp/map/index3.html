@@ -21,29 +21,51 @@
     <script src="../static/stomp.js"></script>
     
     <style type="text/css">
-		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-		#main{width:100%;height:100%;}
-		
-		/**隐藏百度地图的标签**/
-	    .anchorBL{
-	    	display:none;
-	    }
-	    
-	   
-	   ＃main_slider {
-	   		width:160px;
-	   		height:100%;
-	   		border:1px solid red ;
-	   		position:absolute;
-			top:10px;
-			right:10px;
-			background:rgba(153,204,255,0.2);
-			border:solid 1px #99CCFF;
-		    border-radius:5px;
-			box-shadow: 1px 1px 2px #99CCFF;
-			cursor:pointer;
-	   }
-	</style>
+body, html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+#main {
+	width: 100%;
+	height: 100%;
+}
+
+/**隐藏百度地图的标签**/
+.anchorBL {
+	display: none;
+}
+
+#main_slider {
+	width: 250px;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background: rgba(153, 204, 255, 0.2);
+	cursor: pointer;
+}
+
+.comp_info {
+	color: #FFF;
+}
+
+.comp_info ul {
+	list-style-type: none;
+	margin-left: -40px;
+}
+
+.comp_info ul {
+	text-align: left;
+}
+
+.comp_info ul li span.comp_info_data {
+	float: right;
+	padding-right: 10px;
+}
+</style>
   </head>
   <body>
     <div id="main"></div>  
@@ -51,7 +73,16 @@
 	
 	
 	<div id="main_slider">
-		ddddrrrt
+		<div class="comp_info">
+			<h4>浙江公司</h4>
+			<ul>
+				<li>1:雅戈尔中心店<span class="comp_info_data">515.56</span></li>
+				<li>2:雅戈尔中心店<span class="comp_info_data">515.56</span></li>
+				<li>3:雅戈尔中心店<span class="comp_info_data">515.56</span></li>
+				<li>4:雅戈尔中心店<span class="comp_info_data">515.56</span></li>
+				<li>5:雅戈尔中心店<span class="comp_info_data">515.56</span></li>
+			</ul>
+		</div>
 	</div>
     
   </body>
