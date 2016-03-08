@@ -1,4 +1,4 @@
 $(function(){
 	//$(document).height()
-	$("#main_slider")
+	//$("#main_slider")
 });

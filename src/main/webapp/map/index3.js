@@ -74,7 +74,9 @@ function show(){
         };
         var point = new BMap.Point(startPoint.x, startPoint.y);
         map.centerAndZoom(point, 5);
-        map.enableScrollWheelZoom(true);
+        //map.enableScrollWheelZoom(true);
+        map.disableScrollWheelZoom();
+        map.disableDragging();
         // 地图自定义样式
         map.setMapStyle({
             styleJson: [
